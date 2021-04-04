@@ -1,0 +1,26 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible
+    command: ${MOLECULE_COMMAND:-/lib/systemd/systemd}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+lint: |
+  yamllint .
+  ansible-lint
+  flake8
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+  options:
+    # show which tests where executed in test output
+    v: 1

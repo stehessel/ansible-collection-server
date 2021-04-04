@@ -1,0 +1,15 @@
+---
+
+docker__package: docker.io
+docker__state: present
+docker__service_enabled: yes
+docker__users: []
+
+docker__config:
+  log-driver: "{{ docker__log_driver | default('journald') }}"
+
+docker__cron_jobs:
+  - name: "Docker disk clean up"
+    job: "docker system prune -af"
+    schedule: ["0", "0", "*", "*", "0"]
+    user: "{{ (docker__users | first) | default('root') }}"

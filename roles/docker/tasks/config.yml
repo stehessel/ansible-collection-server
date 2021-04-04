@@ -1,0 +1,28 @@
+---
+# Deploy Docker `/etc/docker/daemon.json` config
+
+
+- name: Docker | Config | Ansible check directory.
+  stat:
+    path: /etc/docker
+  register: my_folder
+
+- name: Docker | Config | Make sure /etc/docker exists
+  file:
+    path: /etc/docker
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: yes
+  when: not my_folder.stat.exists
+
+- name: Docker | Config | Deploy /etc/docker/daemon.json
+  copy:
+    content: "{{ docker__config | to_nice_json }}\n"
+    dest: /etc/docker/daemon.json
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: yes
+  notify: Docker | Restart Docker

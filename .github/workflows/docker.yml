@@ -1,0 +1,52 @@
+name: "stehessel.server.docker"
+on:
+  push:
+    paths:
+      - "roles/docker/**"
+      - "molecule/docker/**"
+      - ".github/workflows/docker.yml"
+      - "molecule/default/**"
+  pull_request:
+    paths:
+      - "roles/docker/**"
+      - "molecule/docker/**"
+      - ".github/workflows/docker.yml"
+      - "molecule/default/**"
+jobs:
+  molecule:
+    runs-on: ubuntu-latest
+    env:
+      PY_COLORS: 1
+      ANSIBLE_FORCE_COLOR: 1
+    strategy:
+      fail-fast: true
+      matrix:
+        molecule:
+          - { "distro":"ubuntu-16.04", "command":"/sbin/init" }
+          - { "distro":"ubuntu-18.04", "command":"/lib/systemd/systemd" }
+          - { "distro":"ubuntu-20.04", "command":"/lib/systemd/systemd" }
+        collection_role:
+          - docker
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          sudo apt install docker.io
+          python -m pip install --upgrade pip
+          pip install ansible-lint docker flake8 molecule yamllint
+
+      - name: Run role tests
+        run: >-
+          molecule --version &&
+          ansible --version &&
+          MOLECULE_COMMAND=${{ matrix.molecule.command }}
+          MOLECULE_DISTRO=${{ matrix.molecule.distro }}
+          molecule --debug test -s ${{ matrix.collection_role }}
+

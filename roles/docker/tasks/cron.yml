@@ -1,0 +1,17 @@
+---
+
+- name: Docker | Cron | Manage Docker related cron jobs
+  cron:
+    name: "{{ item.name }}"
+    job: "{{ item.job }}"
+    minute: "{{ item.schedule[0] }}"
+    hour: "{{ item.schedule[1] }}"
+    day: "{{ item.schedule[2] }}"
+    month: "{{ item.schedule[3] }}"
+    weekday: "{{ item.schedule[4] }}"
+  loop: "{{ docker__cron_jobs }}"
+  when:
+    - item.state | default("present") != "absent"
+    - item.name | default()
+    - item.job | default()
+    - item.schedule | default()

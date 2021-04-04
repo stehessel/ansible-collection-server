@@ -1,0 +1,28 @@
+---
+
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Docker | Install packages
+  package:
+    name:
+      - "{{ docker__package }}"
+      - docker-compose
+    state: "{{ docker__state }}"
+  become: yes
+
+- name: Docker | Start and enable service
+  service:
+    name: docker
+    enabled: "{{ docker__service_enabled }}"
+    state: started
+  become: yes
+
+- name: Docker | Config
+  include_tasks: config.yml
+
+- name: Docker | Add users
+  include_tasks: add_users.yml
+
+- name: Docker | Cron jobs
+  include_tasks: cron.yml
