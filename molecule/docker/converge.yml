@@ -8,3 +8,5 @@
       vars:
         docker__users:
           - sudouser
+        docker__cgroup_parent: "/actions_job"
+        docker__storage_driver: "vfs"

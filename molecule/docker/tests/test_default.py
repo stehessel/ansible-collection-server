@@ -1,6 +1,6 @@
 def test_run_hello_world_container(host):
     with host.sudo():
-        hello_world = host.run("docker run hello-world")
+        hello_world = host.run("sudo docker run hello-world")
 
     assert "Hello from Docker!" in hello_world.stdout
 
