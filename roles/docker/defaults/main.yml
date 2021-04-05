@@ -6,9 +6,9 @@ docker__service_enabled: yes
 docker__users: []
 
 docker__config:
-  cgroup-parent: "{{ docker__cgroup_parent | default(omit) }}"
+  cgroup-parent: "{{ docker__cgroup_parent | default(None) }}"
   log-driver: "{{ docker__log_driver | default('journald') }}"
-  storage-driver: "{{ docker__storage_driver | default(omit) }}"
+  storage-driver: "{{ docker__storage_driver | default(None) }}"
 
 docker__cron_jobs:
   - name: "Docker disk clean up"
