@@ -6,13 +6,11 @@ on:
       - "roles/docker/**"
       - "molecule/docker/**"
       - ".github/workflows/docker.yml"
-      - "molecule/default/**"
   pull_request:
     paths:
       - "roles/docker/**"
       - "molecule/docker/**"
       - ".github/workflows/docker.yml"
-      - "molecule/default/**"
   workflow_dispatch:
 jobs:
   molecule:
