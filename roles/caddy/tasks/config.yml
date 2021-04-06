@@ -1,0 +1,14 @@
+---
+# Deploy Caddy config
+
+- name: Caddy | Config | Make sure path exists
+  file:
+    path: "{{ caddy__path }}"
+    state: directory
+  become: yes
+
+- name: Caddy | Config | Deploy Caddyfile
+  template:
+    src: Caddyfile.j2
+    dest: "{{ caddy__path }}/Caddyfile"
+    mode: preserve

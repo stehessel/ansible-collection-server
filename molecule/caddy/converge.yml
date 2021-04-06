@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include docker"
+      include_role:
+        name: "stehessel.server.docker"
+
+    - name: "Include caddy"
+      include_role:
+        name: "stehessel.server.caddy"
+      vars:
+        docker__cgroup_parent: "/actions_job"
+        docker__storage_driver: "vfs"

@@ -1,0 +1,9 @@
+---
+
+caddy__domains:
+  - hesselmann.famliy
+  - www.hesselmann.famliy
+caddy__email: accounts@stehessel.de
+caddy__path: /srv/caddy
+caddy__port: 80
+caddy__service: mealie

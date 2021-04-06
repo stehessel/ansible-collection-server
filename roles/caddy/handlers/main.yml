@@ -1,0 +1,7 @@
+---
+
+- name: Caddy | Restart Caddy
+  service:
+    name: docker
+    state: restarted
+  become: yes

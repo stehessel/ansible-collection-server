@@ -14,6 +14,11 @@ def test_docker_config_has_been_created(host):
     config_file = host.file("/etc/docker/daemon.json")
 
     assert config_file.exists
+
+
+def test_docker_config_has_valid_log_driver(host):
+    config_file = host.file("/etc/docker/daemon.json")
+
     assert '"log-driver": "journald"' in config_file.content_string
 
 

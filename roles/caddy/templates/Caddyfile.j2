@@ -1,0 +1,6 @@
+{
+	email {{ caddy__email }}
+}
+{{ caddy__domains | join(", ") }} {
+	reverse_proxy {{ caddy__service }}:{{ caddy__port }}
+}

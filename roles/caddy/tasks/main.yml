@@ -1,0 +1,7 @@
+---
+
+- name: Caddy | Config
+  include_tasks: config.yml
+
+- name: Caddy | Docker
+  include_tasks: docker.yml

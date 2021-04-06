@@ -1,11 +1,10 @@
 ---
 # Deploy Docker `/etc/docker/daemon.json` config
 
-
-- name: Docker | Config | Ansible check directory.
+- name: Docker | Config | Ansible check directory
   stat:
     path: /etc/docker
-  register: my_folder
+  register: etc_docker
 
 - name: Docker | Config | Make sure /etc/docker exists
   file:
@@ -15,7 +14,7 @@
     group: "root"
     mode: "0644"
   become: yes
-  when: not my_folder.stat.exists
+  when: not etc_docker.stat.exists
 
 - name: Docker | Config | Deploy /etc/docker/daemon.json
   copy:

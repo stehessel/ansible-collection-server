@@ -1,0 +1,11 @@
+---
+
+- name: Caddy | Docker | Copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: "{{ caddy__path }}/docker-compose.yml"
+    mode: preserve
+
+- name: Caddy | Docker | Create and start service
+  community.docker.docker_compose:
+    project_src: "{{ caddy__path }}"

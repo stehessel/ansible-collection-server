@@ -1,8 +1,8 @@
 stehessel.server.docker
 =======================
 
-Ansible role to deploy a minimal docker setup. Installs `docker` and `docker-compose` from distribution repositories.
-Includes a cron job to periodically prune unused docker data.
+Ansible role to deploy a minimal Docker setup. Installs `docker` and `docker-compose` from distribution repositories.
+Includes a cron job to periodically prune unused Docker data.
 
 Role Variables
 --------------
@@ -47,7 +47,7 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Include docker"
+    - name: "Set up Docker"
       include_role:
         name: "stehessel.server.docker"
       vars:

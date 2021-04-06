@@ -1,7 +1,7 @@
 galaxy_info:
-  role_name: docker
+  role_name: caddy
   author: stehessel
-  description: Ansible role to set up Docker
+  description: Ansible role to set up Caddy
   license: BSD-3-Clause
   min_ansible_version: 2.4
   platforms:
@@ -11,5 +11,8 @@ galaxy_info:
         - bionic
         - focal
   galaxy_tags:
+    - caddy
     - docker
+    - proxy
+    - webserver
 dependencies: []
