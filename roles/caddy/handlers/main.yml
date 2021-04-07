@@ -1,7 +1,7 @@
 ---
 
 - name: Caddy | Restart Caddy
-  service:
-    name: docker
-    state: restarted
-  become: yes
+  community.docker.docker_compose:
+    project_src: "{{ caddy__path }}"
+    state: present
+    restarted: yes

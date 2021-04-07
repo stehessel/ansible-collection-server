@@ -5,10 +5,11 @@
   file:
     path: "{{ caddy__path }}"
     state: directory
+    mode: u=rw,g=r,o=r
   become: yes
 
 - name: Caddy | Config | Deploy Caddyfile
   template:
     src: Caddyfile.j2
     dest: "{{ caddy__path }}/Caddyfile"
-    mode: preserve
+    mode: u=rw,g=r,o=r

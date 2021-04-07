@@ -4,8 +4,11 @@
   copy:
     src: docker-compose.yml
     dest: "{{ caddy__path }}/docker-compose.yml"
-    mode: preserve
+    mode: u=rw,g=r,o=r
 
-- name: Caddy | Docker | Create and start service
+- name: Caddy | Docker | Pull image and start service
   community.docker.docker_compose:
     project_src: "{{ caddy__path }}"
+    pull: yes
+    state: present
+  become: yes
