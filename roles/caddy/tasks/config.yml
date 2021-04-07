@@ -5,7 +5,7 @@
   file:
     path: "{{ caddy__path }}"
     state: directory
-    mode: u=rw,g=r,o=r
+    mode: u=rwx,g=rx,o=rx
   become: yes
 
 - name: Caddy | Config | Deploy Caddyfile
@@ -13,3 +13,4 @@
     src: Caddyfile.j2
     dest: "{{ caddy__path }}/Caddyfile"
     mode: u=rw,g=r,o=r
+  become: yes

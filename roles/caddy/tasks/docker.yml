@@ -1,10 +1,11 @@
 ---
 
 - name: Caddy | Docker | Copy docker-compose.yml
-  copy:
-    src: docker-compose.yml
+  template:
+    src: docker-compose.j2
     dest: "{{ caddy__path }}/docker-compose.yml"
     mode: u=rw,g=r,o=r
+  become: yes
 
 - name: Caddy | Docker | Pull image and start service
   community.docker.docker_compose:
