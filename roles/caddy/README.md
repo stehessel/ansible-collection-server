@@ -1,7 +1,7 @@
 stehessel.server.caddy
 ======================
 
-Ansible role to deploy a minimal Caddy reverse-proxy setup. Assumes that `docker-compose` is available.
+Ansible role to deploy a minimal Caddy webserver setup. Assumes that `docker-compose` is available.
 
 Role Variables
 --------------
@@ -13,15 +13,23 @@ caddy__path: /srv/caddy
 Path to directory that contains the Caddyfile and Caddy specific data.
 
 ```yaml
-caddy__domains:
-  - hesselmann.famliy
-  - www.hesselmann.famliy
-caddy__email: accounts@stehessel.de
-caddy__port: 80
-caddy__service: mealie
+caddy__domain: hesselmann.famliy
 ```
 
-Parameters that specify the reverse proxy. `caddy__email` is used to obtain the SSL/TLS certificates via ACME.
+The domain name.
+
+```yaml
+caddy__email: accounts@stehessel.de
+```
+
+Email address that is used to obtain the SSL/TLS certificates via ACME.
+
+```yaml
+caddy__auth_user: user
+caddy__auth_secret: user
+```
+
+Basic authentication credentials. `caddy__auth_secret` needs to be hashed via `caddy hash-password --plaintext <my-password>`.
 
 Example Playbook
 ----------------

@@ -4,7 +4,8 @@
   template:
     src: docker-compose.j2
     dest: "{{ caddy__path }}/docker-compose.yml"
-    mode: u=rw,g=r,o=r
+    group: docker
+    mode: u=rw,g=rw,o=r
   become: yes
 
 - name: Caddy | Docker | Pull image and start service
@@ -13,3 +14,4 @@
     pull: yes
     state: present
   become: yes
+  notify: Caddy | Restart Caddy

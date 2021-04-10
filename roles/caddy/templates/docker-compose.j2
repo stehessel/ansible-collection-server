@@ -13,6 +13,7 @@ services:
     volumes:
       - {{ caddy__path }}/data:/data
       - {{ caddy__path }}/Caddyfile:/etc/caddy/Caddyfile:ro
+      - {{ caddy__srv_path }}:/srv
 
 networks:
   default:

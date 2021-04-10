@@ -1,6 +1,15 @@
 {
-	email {{ caddy__email }}
+    email {{ caddy__email }}
 }
-{{ caddy__domains | join(", ") }} {
-	reverse_proxy {{ caddy__service }}:{{ caddy__port }}
+www.{{ caddy__domain }} {
+    redir https://{{ caddy__domain }}{uri} permanent
+}
+{{ caddy__domain }} {
+    {% if caddy__auth_user is defined and caddy__auth_secret is defined %}
+    basicauth {
+        {{ caddy__auth_user  }} {{ caddy__auth_secret }}
+    }
+    {% endif %}
+    root * /srv
+    file_server browse
 }
