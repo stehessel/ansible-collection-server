@@ -1,7 +1,7 @@
 stehessel.server.rsync
 ======================
 
-Ansible role to deploy a minimal rsync service.
+Ansible role to deploy a minimal rsync service. Sets up `ufw` rules for rsync port.
 
 Example Playbook
 ----------------

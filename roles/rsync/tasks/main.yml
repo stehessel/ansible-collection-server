@@ -22,7 +22,7 @@
     state: started
   become: yes
 
-- name: Rsync | Setup ufw firewall rules
+- name: Rsync | Set up ufw rules
   community.general.ufw:
     rule: allow
     port: rsync
