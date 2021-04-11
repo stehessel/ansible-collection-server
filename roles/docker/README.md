@@ -2,7 +2,7 @@ stehessel.server.docker
 =======================
 
 Ansible role to deploy a minimal Docker setup. Installs `docker` and `docker-compose` from distribution repositories.
-Includes a cron job to periodically prune unused Docker data. Sets up `ufw` rules for http and https ports.
+Includes a cron job to periodically prune unused Docker data.
 
 Role Variables
 --------------

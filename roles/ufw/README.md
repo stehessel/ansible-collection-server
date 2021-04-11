@@ -1,7 +1,7 @@
-stehessel.server.rsync
-======================
+stehessel.server.ufw
+====================
 
-Ansible role to deploy a minimal rsync service. Sets up `ufw` rules for rsync port (873).
+Sets up 'ufw' as a firewall service.
 
 Example Playbook
 ----------------
@@ -9,9 +9,9 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Set up rsync"
+    - name: "Set up ufw"
       include_role:
-        name: "stehessel.server.rsync"
+        name: "stehessel.server.ufw"
 ```
 
 License

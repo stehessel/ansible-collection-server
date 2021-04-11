@@ -1,0 +1,15 @@
+---
+
+- name: ufw | Install package
+  package:
+    name:
+      - ufw
+    state: present
+  become: yes
+
+- name: ufw | Start and enable service
+  service:
+    name: ufw
+    enabled: yes
+    state: started
+  become: yes

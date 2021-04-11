@@ -2,6 +2,10 @@
 - name: Converge
   hosts: all
   tasks:
+    - name: "Include ufw"
+      include_role:
+        name: "stehessel.server.ufw"
+
     - name: "Include docker"
       include_role:
         name: "stehessel.server.docker"
