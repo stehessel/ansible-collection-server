@@ -1,3 +1,11 @@
+def test_docker_service_is_running(host):
+    assert host.service("docker").is_running
+
+
+def test_docker_service_is_enabled(host):
+    assert host.service("docker").is_enabled
+
+
 def test_run_hello_world_container(host):
     with host.sudo():
         hello_world = host.run("sudo docker run hello-world")
@@ -11,9 +19,7 @@ def test_user_added_to_docker_group(host):
 
 
 def test_docker_config_has_been_created(host):
-    config_file = host.file("/etc/docker/daemon.json")
-
-    assert config_file.exists
+    assert host.file("/etc/docker/daemon.json").exists
 
 
 def test_docker_config_has_valid_log_driver(host):

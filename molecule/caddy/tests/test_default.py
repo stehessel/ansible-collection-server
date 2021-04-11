@@ -1,7 +1,9 @@
-def test_caddyfile_has_been_created(host):
-    caddyfile = host.file("/srv/caddy/Caddyfile")
+def test_caddy_container_is_running(host):
+    assert host.docker("caddy").is_running
 
-    assert caddyfile.exists
+
+def test_caddyfile_has_been_created(host):
+    assert host.file("/srv/caddy/Caddyfile").exists
 
 
 def test_caddyfile_has_valid_email(host):
