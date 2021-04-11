@@ -1,0 +1,57 @@
+---
+name: "stehessel.server.ufw"
+on:
+  push:
+    paths:
+      - "roles/ufw/**"
+      - "molecule/ufw/**"
+      - ".github/workflows/ufw.yml"
+  pull_request:
+    paths:
+      - "roles/ufw/**"
+      - "molecule/ufw/**"
+      - ".github/workflows/ufw.yml"
+  workflow_dispatch:
+jobs:
+  molecule:
+    runs-on: ubuntu-latest
+    env:
+      PY_COLORS: 1
+      ANSIBLE_FORCE_COLOR: 1
+    strategy:
+      fail-fast: true
+      matrix:
+        molecule:
+          - { "distro":"ubuntu1604", "command":"/sbin/init" }
+          - { "distro":"ubuntu1804", "command":"/lib/systemd/systemd" }
+          - { "distro":"ubuntu2004", "command":"/lib/systemd/systemd" }
+        collection_role:
+          - ufw
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          path: ansible_collections/stehessel/server
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Set up Docker
+        uses: docker-practice/actions-setup-docker@v1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible ansible-lint docker flake8 molecule[docker] pytest-testinfra yamllint
+          ansible-galaxy collection install community.general
+
+      - name: Run role tests
+        run: >-
+          molecule --version &&
+          ansible --version &&
+          MOLECULE_COMMAND=${{ matrix.molecule.command }}
+          MOLECULE_DISTRO=${{ matrix.molecule.distro }}
+          molecule --debug test -s ${{ matrix.collection_role }}
+        working-directory: ./ansible_collections/stehessel/server
