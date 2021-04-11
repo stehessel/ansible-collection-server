@@ -28,5 +28,5 @@
 - name: Rsync | Set up ufw rules
   community.general.ufw:
     rule: allow
-    port: rsync
+    port: "873"
   become: yes
