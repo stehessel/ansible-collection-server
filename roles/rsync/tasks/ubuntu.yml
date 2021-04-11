@@ -1,7 +1,5 @@
 ---
 
-- name: Rsync | Ubuntu | Enable universe repo
-  apt_repository:
-    repo: "deb http://de.archive.ubuntu.com/ubuntu {{ ansible_distribution_release | lower }} universe"
-    state: present
-  become: yes
+- name: Rsync | Ubuntu | Update repositories cache
+  apt:
+    update_cache: yes
