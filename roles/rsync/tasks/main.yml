@@ -1,0 +1,29 @@
+---
+
+- name: Rsync | Install package
+  package:
+    name:
+      - rsync
+    state: present
+  become: yes
+
+- name: Rsync | Deploy rsyncd.conf
+  template:
+    src: rsyncd.conf.j2
+    dest: /etc/rsyncd.conf
+    mode: u=rw,g=r,o=r
+  become: yes
+  notify: Rsync | Restart rsync
+
+- name: Rsync | Start and enable service
+  service:
+    name: rsync
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Rsync | Setup ufw firewall rules
+  community.general.ufw:
+    rule: allow
+    port: rsync
+  become: yes

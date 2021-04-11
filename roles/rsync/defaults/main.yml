@@ -1,0 +1,5 @@
+---
+
+rsync__max_connections: 10
+rsync__timeout: 300
+rsync__shares: []

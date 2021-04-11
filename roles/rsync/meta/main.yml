@@ -1,0 +1,15 @@
+galaxy_info:
+  role_name: rsync
+  author: stehessel
+  description: Ansible role to set up rsync
+  license: BSD-3-Clause
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  galaxy_tags:
+    - rsync
+dependencies: []

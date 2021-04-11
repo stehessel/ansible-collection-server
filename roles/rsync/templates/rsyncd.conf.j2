@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+[global]
+log file = /var/log/rsyncd/rsyncd.log
+max connections = {{ rsync__max_connections }}
+timeout = {{ rsync__timeout }}
+
+{% for share in rsync__shares %}
+[{{ share.name }}]
+path = {{ share.path }}
+comment = {{ share.comment | default(share.path) }}
+read only = {{ share.readonly | default(True) | ternary('true', 'false') }}
+uid = {{ share.uid | default('nobody') }}
+gid = {{ share.gid | default('nobody') }}
+exclude = {{ share.excludes | default(['lost+found', '.*']) | join(' ') }}
+{% endfor %}
