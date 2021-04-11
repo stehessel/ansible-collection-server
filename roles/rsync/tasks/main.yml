@@ -1,5 +1,8 @@
 ---
 
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
 - name: Rsync | Install package
   package:
     name:

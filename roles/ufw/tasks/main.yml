@@ -1,5 +1,8 @@
 ---
 
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
 - name: ufw | Install package
   package:
     name:
