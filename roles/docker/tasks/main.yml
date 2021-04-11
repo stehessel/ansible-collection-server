@@ -26,12 +26,3 @@
 
 - name: Docker | Cron jobs
   include_tasks: cron.yml
-
-- name: Docker | Set up ufw rules
-  community.general.ufw:
-    rule: allow
-    port: "{{ item }}"
-  become: yes
-  with_items:
-    - http
-    - https
