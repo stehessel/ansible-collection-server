@@ -1,0 +1,7 @@
+---
+
+- name: buku | Restart buku
+  community.docker.docker_compose:
+    project_src: "{{ buku__path }}"
+    state: present
+    restarted: yes

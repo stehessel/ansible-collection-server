@@ -3,15 +3,25 @@
 {
     email {{ caddy__email }}
 }
-www.{{ caddy__domain }} {
-    redir https://{{ caddy__domain }}{uri} permanent
-}
-{{ caddy__domain }} {
-{% if caddy__auth_user is defined and caddy__auth_secret is defined %}
+
+{% for service in caddy__services %}
+{{ service.domain }} {
+{% if service.auth_user is defined and service.auth_secret is defined %}
     basicauth {
-        {{ caddy__auth_user }} {{ caddy__auth_secret }}
+        {{ service.auth_user }} {{ service.auth_secret }}
     }
 {% endif %}
+    log {
+        output file /var/log/{{ service.domain }}.log
+    }
+{% if service.type == "file_server" %}
     root * /srv
     file_server browse
+{% elif service.type == "reverse_proxy" %}
+    reverse_proxy {{ service.proxy_name }}:{{ service.proxy_port }}
+{% endif %}
 }
+www.{{ service.domain }} {
+    redir https://{{ service.domain }}{uri} permanent
+}
+{% endfor %}

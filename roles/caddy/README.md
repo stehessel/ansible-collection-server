@@ -12,25 +12,32 @@ caddy__path: /srv/caddy
 ```
 
 Path to directory that contains the Caddyfile and Caddy specific data.
+Access logs are written to `{{ caddy__path }}/log`.
 
 ```yaml
-caddy__domain: hesselmann.famliy
-```
-
-The domain name.
-
-```yaml
-caddy__email: accounts@stehessel.de
+caddy__email: mail@example.com
 ```
 
 Email address that is used to obtain the SSL/TLS certificates via ACME.
 
 ```yaml
-caddy__auth_user: user
-caddy__auth_secret: user
+caddy__services:
+    - domain: example-file-server.com
+      type: file_server
+      auth_user: user
+      auth_secret: <hashed-password>
+
+    - domain: example-reverse-proxy.com
+      type: reverse_proxy
+      proxy_name: example
+      proxy_port: 9000
+      auth_user: user
+      auth_secret: <hashed-password>
 ```
 
-Basic authentication credentials. `caddy__auth_secret` needs to be hashed via `caddy hash-password --plaintext <my-password>`.
+List of services that should be served either via reverse-proxy or web server.
+Basic authentication credentials are optional. `auth_secret` needs to be hashed via
+`caddy hash-password --plaintext <my-password>`.
 
 Example Playbook
 ----------------

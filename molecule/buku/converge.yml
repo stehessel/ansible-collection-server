@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include buku"
+      include_role:
+        name: "stehessel.server.buku"

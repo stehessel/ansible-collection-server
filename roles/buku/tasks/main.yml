@@ -1,0 +1,25 @@
+---
+
+- name: Buku | Make sure buku path exists
+  file:
+    path: "{{ buku__path }}"
+    state: directory
+    group: docker
+    mode: u=rwx,g=rwx,o=rx
+  become: yes
+
+- name: Buku | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ buku__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: buku | Restart buku
+
+- name: Buku | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ buku__path }}"
+    pull: yes
+    state: present
+  become: yes

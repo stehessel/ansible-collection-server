@@ -1,6 +1,7 @@
 ---
 
-caddy__domain: hesselmann.family
 caddy__email: accounts@stehessel.de
 caddy__path: /srv/caddy
 caddy__srv_path: /srv/public
+
+# caddy__services: []

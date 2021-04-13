@@ -14,5 +14,8 @@
       include_role:
         name: "stehessel.server.caddy"
       vars:
+        caddy__services:
+          domain: example.com
+          type: file_server
         docker__cgroup_parent: "/actions_job"
         docker__storage_driver: "vfs"
