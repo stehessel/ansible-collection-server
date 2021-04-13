@@ -2,6 +2,10 @@
 - name: Converge
   hosts: all
   tasks:
+    - name: "Include docker"
+      include_role:
+        name: "stehessel.server.docker"
+
     - name: "Include buku"
       include_role:
         name: "stehessel.server.buku"
