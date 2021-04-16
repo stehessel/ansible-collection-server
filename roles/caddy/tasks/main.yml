@@ -11,6 +11,6 @@
     rule: allow
     port: "{{ item }}"
   become: yes
-  with_items:
+  loop:
     - http
     - https

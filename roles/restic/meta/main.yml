@@ -1,7 +1,7 @@
 galaxy_info:
-  role_name: ufw
+  role_name: restic
   author: stehessel
-  description: Ansible role to set up ufw
+  description: Ansible role to set up restic
   license: BSD-3-Clause
   min_ansible_version: 2.4
   platforms:
@@ -11,6 +11,6 @@ galaxy_info:
         - bionic
         - focal
   galaxy_tags:
-    - firewall
-    - ufw
+    - backup
+    - restic
 dependencies: []

@@ -1,0 +1,6 @@
+---
+
+- name: restic | Ubuntu | Update repositories cache
+  apt:
+    update_cache: yes
+  become: yes

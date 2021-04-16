@@ -1,0 +1,59 @@
+---
+
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Restic | Install package
+  package:
+    name: restic
+    state: present
+  become: yes
+
+- name: Restic | Ensure password directory exists
+  file:
+    path: /etc/restic/passwords
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  become: yes
+
+- name: Restic | Set up password files
+  copy:
+    dest: "/etc/restic/passwords/{{ item.bucket }}"
+    content: "{{ item.password }}"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  become: yes
+  loop: "{{ restic__repos }}"
+
+- name: Restic | Create backup repositories
+  command:
+    cmd: "restic --repo=b2:{{ item.bucket }} init --password-file=/etc/restic/passwords/{{ item.bucket }}"
+  environment:
+    B2_ACCOUNT_ID: "{{ item.account_id }}"
+    B2_ACCOUNT_KEY: "{{ item.account_key }}"
+  register: result
+  changed_when:
+    - result.rc == 0
+  failed_when:
+    - result.rc != 0
+    - '"config already exists" not in result.stderr'
+  become: yes
+  loop: "{{ restic__repos }}"
+
+- name: Restic | Set up cron jobs
+  cron:
+    name: "{{ item.bucket }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+    month: "{{ item.month }}"
+    weekday: "{{ item.weekday }}"
+    job: >-
+      B2_ACCOUNT_ID={{ item.account_id }}
+      B2_ACCOUNT_KEY={{ item.account_key }}
+      restic --repo=b2:{{ item.bucket }} backup {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }}
+  become: yes
+  loop: "{{ restic__repos }}"

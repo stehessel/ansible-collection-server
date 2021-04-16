@@ -17,10 +17,6 @@
     mode: u=rwx,g=rwx,o=rx
   become: yes
 
-- name: Print return information from the previous task
-  ansible.builtin.debug:
-    var: caddy__services
-
 - name: Caddy | Config | Deploy Caddyfile
   template:
     src: Caddyfile.j2
