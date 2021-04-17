@@ -21,7 +21,9 @@
     reverse_proxy {{ service.proxy_name }}:{{ service.proxy_port }}
 {% endif %}
 }
+{% if service.www_redirect is defined and service.www_redirect %}
 www.{{ service.domain }} {
     redir https://{{ service.domain }}{uri} permanent
 }
+{% endif %}
 {% endfor %}

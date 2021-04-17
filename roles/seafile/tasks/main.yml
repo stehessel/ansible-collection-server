@@ -1,0 +1,25 @@
+---
+
+- name: Seafile | Make sure Seafile path exists
+  file:
+    path: "{{ seafile__path }}"
+    state: directory
+    group: docker
+    mode: u=rwx,g=rwx,o=rx
+  become: yes
+
+- name: Seafile | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ seafile__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Seafile | Restart Seafile
+
+- name: Seafile | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ seafile__path }}"
+    pull: yes
+    state: present
+  become: yes

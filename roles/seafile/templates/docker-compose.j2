@@ -1,0 +1,84 @@
+# {{ ansible_managed }}
+
+version: '3.7'
+
+services:
+  seafile-server:
+    image: ggogel/seafile-server:8.0.4
+    volumes:
+      - seafile-data:/shared
+    environment:
+      - DB_HOST=db
+      - DB_ROOT_PASSWD={{ seafile__database_password }}
+      - TIME_ZONE={{ seafile__timezone }}
+      - HTTPS=yes
+      - SEAFILE_SERVER_HOSTNAME={{ seafile__domain }}
+      - GC_CRON={{ seafile__garbage_collect_cron }}
+    depends_on:
+      - db
+      - memcached
+      - seafile-caddy
+    networks:
+      - seafile-net
+
+  seahub:
+    image: ggogel/seahub:8.0.4
+    volumes:
+      - seafile-data:/shared
+      - seahub-avatars:/shared/seafile/seahub-data/avatars
+      - seahub-custom:/shared/seafile/seahub-data/custom
+    environment:
+      - SEAFILE_ADMIN_EMAIL={{ seafile__admin_email }}
+      - SEAFILE_ADMIN_PASSWORD={{ seafile__admin_password }}
+    depends_on:
+      - seafile-server
+      - seafile-caddy
+    networks:
+      - seafile-net
+
+  seahub-media:
+    image: ggogel/seahub-media:8.0.4
+    volumes:
+     - seahub-avatars:/usr/share/caddy/media/avatars
+     - seahub-custom:/usr/share/caddy/media/custom
+    depends_on:
+      - seafile-server
+      - db
+      - memcached
+      - seafile-caddy
+    networks:
+      - seafile-net
+
+  db:
+    image: mariadb:10.5.8
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ seafile__database_password }}
+      - MYSQL_LOG_CONSOLE=true
+    volumes:
+      - seafile-mariadb:/var/lib/mysql
+    networks:
+      - seafile-net
+
+  memcached:
+    image: memcached:1.6.9
+    entrypoint: memcached -m {{ seafile__memcache }}
+    networks:
+      - seafile-net
+
+  seafile-caddy:
+    image: ggogel/seafile-caddy:1.0.0
+    networks:
+      - seafile-net
+      - caddy-net
+
+networks:
+  seafile-net:
+    internal: true
+  caddy-net:
+    external: true
+
+volumes:
+  seafile-data:
+  seafile-mariadb:
+  seahub-avatars:
+  seahub-custom:
