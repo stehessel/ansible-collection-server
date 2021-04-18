@@ -11,9 +11,13 @@
         {{ service.auth_user }} {{ service.auth_secret }}
     }
 {% endif %}
+
     log {
         output file /var/log/{{ service.domain }}.log
     }
+
+    encode gzip
+
 {% if service.type == "file_server" %}
     root * /srv
     file_server browse
@@ -21,6 +25,7 @@
     reverse_proxy {{ service.proxy_name }}:{{ service.proxy_port }}
 {% endif %}
 }
+
 {% if service.www_redirect is defined and service.www_redirect %}
 www.{{ service.domain }} {
     redir https://{{ service.domain }}{uri} permanent

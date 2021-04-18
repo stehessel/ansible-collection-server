@@ -5,6 +5,9 @@ version: '3.7'
 services:
   seafile-server:
     image: ggogel/seafile-server:8.0.4
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - seafile-data:/shared
     environment:
@@ -23,6 +26,9 @@ services:
 
   seahub:
     image: ggogel/seahub:8.0.4
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - seafile-data:/shared
       - seahub-avatars:/shared/seafile/seahub-data/avatars
@@ -38,6 +44,9 @@ services:
 
   seahub-media:
     image: ggogel/seahub-media:8.0.4
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     volumes:
      - seahub-avatars:/usr/share/caddy/media/avatars
      - seahub-custom:/usr/share/caddy/media/custom
@@ -51,6 +60,9 @@ services:
 
   db:
     image: mariadb:10.5.8
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     environment:
       - MYSQL_ROOT_PASSWORD={{ seafile__database_password }}
       - MYSQL_LOG_CONSOLE=true
@@ -61,12 +73,18 @@ services:
 
   memcached:
     image: memcached:1.6.9
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     entrypoint: memcached -m {{ seafile__memcache }}
     networks:
       - seafile-net
 
   seafile-caddy:
     image: ggogel/seafile-caddy:1.0.0
+    restart: always
+    security_opt:
+      - no-new-privileges:true
     networks:
       - seafile-net
       - caddy-net

@@ -5,7 +5,8 @@
     path: "{{ buku__path }}"
     state: directory
     group: docker
-    mode: u=rwx,g=rwx,o=rx
+    mode: u=rwX,g=rwX,o=rX
+    recurse: yes
   become: yes
 
 - name: Buku | Copy docker-compose.yml
