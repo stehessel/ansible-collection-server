@@ -1,7 +1,7 @@
 stehessel.server.caddy
 ======================
 
-Ansible role to deploy a minimal Caddy webserver setup. Assumes that `docker-compose` is available.
+Ansible role to deploy a minimal `Caddy` webserver setup. Assumes that `docker-compose` is available.
 Sets up `ufw` rules for http (80) and https (443) ports.
 
 Role Variables

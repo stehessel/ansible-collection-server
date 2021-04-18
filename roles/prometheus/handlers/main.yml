@@ -1,0 +1,7 @@
+---
+
+- name: Prometheus | Restart Prometheus
+  community.docker.docker_compose:
+    project_src: "{{ prometheus__path }}"
+    state: present
+    restarted: yes

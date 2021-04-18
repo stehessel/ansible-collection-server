@@ -1,7 +1,7 @@
 stehessel.server.seafile
 ========================
 
-Sets up a 'seafile' cloud service.
+Sets up a `seafile` cloud service.
 
 Role Variables
 --------------

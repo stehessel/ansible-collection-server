@@ -1,0 +1,69 @@
+---
+
+- name: Grafana | Make sure Grafana datasources path exists
+  file:
+    path: "{{ grafana__path }}/datasources"
+    state: directory
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+
+- name: Grafana | Make sure Grafana provisioning path exists
+  file:
+    path: "{{ grafana__path }}/provisioning"
+    state: directory
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+
+- name: Grafana | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ grafana__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Grafana | Restart Grafana
+
+- name: Grafana | Copy grafana.ini
+  template:
+    src: grafana.j2
+    dest: "{{ grafana__path }}/grafana.ini"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Grafana | Restart Grafana
+
+- name: Grafana | Copy datasource.yml
+  template:
+    src: datasource.j2
+    dest: "{{ grafana__path }}/datasources/datasource.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Grafana | Restart Grafana
+
+- name: Grafana | Copy dashboards.yml
+  template:
+    src: dashboard.j2
+    dest: "{{ grafana__path }}/provisioning/dashboards/dashboard.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Grafana | Restart Grafana
+
+- name: Grafana | Copy dashboard definitions
+  copy:
+    src: dashboards
+    dest: "{{ grafana__path }}/provisioning"
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+  notify: Grafana | Restart Grafana
+
+- name: Grafana | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ grafana__path }}"
+    pull: yes
+    state: present
+  become: yes

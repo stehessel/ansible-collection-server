@@ -1,22 +1,16 @@
-stehessel.server.buku
-=====================
+stehessel.server.prometheus
+===========================
 
-Sets up a `buku` bookmark server.
+Sets up `prometheus` monitoring.
 
 Role Variables
 --------------
 
 ```yaml
-buku__path: /srv/buku
+prometheus__path: /srv/prometheus
 ```
 
-Buku host path.
-
-```yaml
-buku__port: 5001
-```
-
-Buku server port.
+Host path to Prometheus base directory.
 
 Example Playbook
 ----------------
@@ -24,9 +18,9 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Set up buku"
+    - name: "Set up prometheus"
       include_role:
-        name: "stehessel.server.buku"
+        name: "stehessel.server.prometheus"
 ```
 
 License

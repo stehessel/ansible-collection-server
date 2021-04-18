@@ -16,9 +16,8 @@ services:
       # - BUKUSERVER_DISABLE_FAVICON=false
     volumes:
       - "{{ buku__path}}/data:/root/.local/share/buku"
-    networks:
-      - caddy-net
 
 networks:
-  caddy-net:
-    external: true
+  default:
+    external:
+      name: caddy-net

@@ -1,0 +1,34 @@
+---
+
+- name: Prometheus | Make sure Prometheus path exists
+  file:
+    path: "{{ prometheus__path }}"
+    state: directory
+    group: docker
+    mode: u=rwx,g=rwx,o=rx
+  become: yes
+
+- name: Prometheus | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ prometheus__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Prometheus | Restart Prometheus
+
+- name: Prometheus | Copy prometheus.yml
+  template:
+    src: prometheus.j2
+    dest: "{{ prometheus__path }}/prometheus.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Prometheus | Restart Prometheus
+
+- name: Prometheus | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ prometheus__path }}"
+    pull: yes
+    state: present
+  become: yes

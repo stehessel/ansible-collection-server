@@ -1,0 +1,6 @@
+---
+
+grafana__path: /srv/grafana
+grafana__admin_user: admin
+grafana__admin_password: admin
+grafana__users_allow_sign_up: false

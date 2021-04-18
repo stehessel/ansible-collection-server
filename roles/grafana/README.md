@@ -1,7 +1,13 @@
-stehessel.server.ufw
-====================
+stehessel.server.grafana
+========================
 
-Sets up `ufw` as a firewall service.
+Sets up `grafana` dashboards.
+
+Role Variables
+--------------
+
+```yaml
+```
 
 Example Playbook
 ----------------
@@ -9,9 +15,9 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Set up ufw"
+    - name: "Set up grafana"
       include_role:
-        name: "stehessel.server.ufw"
+        name: "stehessel.server.grafana"
 ```
 
 License
