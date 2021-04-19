@@ -4,5 +4,5 @@ watchtower__cleanup: true
 watchtower__debug: false
 watchtower__include_stopped: false
 watchtower__path: /srv/watchtower
-watchtower__schedule: 0 6 0 * * SAT
+watchtower__schedule: 0 0 6 * * SAT
 watchtower__timeout: 30s
