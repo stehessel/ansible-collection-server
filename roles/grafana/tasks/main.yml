@@ -2,7 +2,7 @@
 
 - name: Grafana | Make sure Grafana datasources path exists
   file:
-    path: "{{ grafana__path }}/datasources"
+    path: "{{ grafana__path }}/provisioning/datasources"
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
@@ -10,7 +10,7 @@
 
 - name: Grafana | Make sure Grafana provisioning path exists
   file:
-    path: "{{ grafana__path }}/provisioning"
+    path: "{{ grafana__path }}/provisioning/dashboards"
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
@@ -37,7 +37,7 @@
 - name: Grafana | Copy datasource.yml
   template:
     src: datasource.j2
-    dest: "{{ grafana__path }}/datasources/datasource.yml"
+    dest: "{{ grafana__path }}/provisioning/datasources/datasource.yml"
     group: docker
     mode: u=rw,g=rw,o=r
   become: yes
