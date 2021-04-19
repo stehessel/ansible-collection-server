@@ -1,2 +1,2 @@
-def test_caddy_container_is_running(host):
+def test_buku_container_is_running(host):
     assert host.docker("bukuserver").is_running

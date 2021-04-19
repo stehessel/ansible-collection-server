@@ -1,0 +1,25 @@
+---
+
+- name: Watchtower | Make sure Watchtower path exists
+  file:
+    path: "{{ watchtower__path }}"
+    state: directory
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+
+- name: Watchtower | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ watchtower__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Watchtower | Restart Watchtower
+
+- name: Watchtower | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ watchtower__path }}"
+    pull: yes
+    state: present
+  become: yes

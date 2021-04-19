@@ -1,16 +1,13 @@
-stehessel.server.prometheus
+stehessel.server.watchtower
 ===========================
 
-Sets up `prometheus` monitoring.
+Sets up `watchtower` to monitor and update running Docker containers.
 
 Role Variables
 --------------
 
 ```yaml
-prometheus__path: /srv/prometheus
 ```
-
-Host path to Prometheus base directory.
 
 Example Playbook
 ----------------
@@ -18,9 +15,9 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Set up Prometheus"
+    - name: "Set up Watchtower"
       include_role:
-        name: "stehessel.server.prometheus"
+        name: "stehessel.server.watchtower"
 ```
 
 License

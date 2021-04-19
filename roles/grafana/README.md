@@ -15,7 +15,7 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Set up grafana"
+    - name: "Set up Grafana"
       include_role:
         name: "stehessel.server.grafana"
 ```

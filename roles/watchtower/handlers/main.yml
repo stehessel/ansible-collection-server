@@ -1,0 +1,7 @@
+---
+
+- name: Watchtower | Restart Watchtower
+  community.docker.docker_compose:
+    project_src: "{{ watchtower__path }}"
+    state: present
+    restarted: yes

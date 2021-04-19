@@ -23,7 +23,7 @@ Example Playbook
 ```yaml
 - hosts: servers
   tasks:
-    - name: "Set up ufw"
+    - name: "Set up Seafile"
       include_role:
         name: "stehessel.server.seafile"
 ```

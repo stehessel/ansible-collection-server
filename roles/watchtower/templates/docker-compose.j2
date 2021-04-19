@@ -1,0 +1,25 @@
+# {{ ansible_managed }}
+
+version: '3.7'
+
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    hostname: watchtower
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - WATCHTOWER_CLEANUP={{ watchtower__cleanup }}
+      - WATCHTOWER_DEBUG={{ watchtower__debug }}
+      - WATCHTOWER_INCLUDE_STOPPED={{ watchtower__include_stopped }}
+      - WATCHTOWER_TIMEOUT={{ watchtower__timeout }}
+      - WATCHTOWER_SCHEDULE={{ watchtower__schedule }}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    external:
+      name: caddy-net
