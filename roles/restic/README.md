@@ -19,6 +19,13 @@ restic__repos:
       day: "*"
       month: "*"
       weekday: "*"
+
+      purge_policy: --keep-daily 7
+      purge_minute: "0"
+      purge_hour: "0"
+      purge_day: "*"
+      purge_month: "*"
+      purge_weekday: "0"
 ```
 
 Backup repositories in B2 cloud.

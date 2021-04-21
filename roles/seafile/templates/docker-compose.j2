@@ -5,27 +5,31 @@ version: '3.7'
 services:
   seafile-server:
     image: ggogel/seafile-server
+    container_name: seafile-server
+    hostname: seafile-server
     restart: always
     security_opt:
       - no-new-privileges:true
     volumes:
       - seafile-data:/shared
     environment:
-      - DB_HOST=db
+      - DB_HOST=seafile-db
       - DB_ROOT_PASSWD={{ seafile__database_password }}
       - TIME_ZONE={{ seafile__timezone }}
       - HTTPS=yes
       - SEAFILE_SERVER_HOSTNAME={{ seafile__domain }}
       - GC_CRON={{ seafile__garbage_collect_cron }}
     depends_on:
-      - db
-      - memcached
+      - seafile-db
+      - seafile-memcached
       - seafile-caddy
     networks:
       - seafile-net
 
   seahub:
     image: ggogel/seahub
+    container_name: seahub
+    hostname: seahub
     restart: always
     security_opt:
       - no-new-privileges:true
@@ -44,6 +48,8 @@ services:
 
   seahub-media:
     image: ggogel/seahub-media
+    container_name: seahub-media
+    hostname: seahub-media
     restart: always
     security_opt:
       - no-new-privileges:true
@@ -52,14 +58,16 @@ services:
      - seahub-custom:/usr/share/caddy/media/custom
     depends_on:
       - seafile-server
-      - db
-      - memcached
+      - seafile-db
+      - seafile-memcached
       - seafile-caddy
     networks:
       - seafile-net
 
-  db:
+  seafile-db:
     image: mariadb:10
+    container_name: seafile-db
+    hostname: seafile-db
     restart: always
     security_opt:
       - no-new-privileges:true
@@ -71,8 +79,10 @@ services:
     networks:
       - seafile-net
 
-  memcached:
+  seafile-memcached:
     image: memcached
+    container_name: seafile-memcached
+    hostname: seafile-memcached
     restart: always
     security_opt:
       - no-new-privileges:true
@@ -82,6 +92,8 @@ services:
 
   seafile-caddy:
     image: ggogel/seafile-caddy
+    container_name: seafile-caddy
+    hostname: seafile-caddy
     restart: always
     security_opt:
       - no-new-privileges:true

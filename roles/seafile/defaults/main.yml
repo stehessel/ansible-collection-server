@@ -8,3 +8,9 @@ seafile__garbage_collect_cron: 0 6 * * SUN
 seafile__memcache: 512
 seafile__path: /srv/seafile
 seafile__timezone: Europe/Berlin
+
+seafile__backup_minute: "0"
+seafile__backup_hour: "3"
+seafile__backup_day: "*"
+seafile__backup_month: "*"
+seafile__backup_weekday: "*"

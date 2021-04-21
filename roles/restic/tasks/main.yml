@@ -43,9 +43,9 @@
   become: yes
   loop: "{{ restic__repos }}"
 
-- name: Restic | Set up cron jobs
+- name: Restic | Set up backup cron jobs
   cron:
-    name: "{{ item.bucket }}"
+    name: "restic.backup/{{ item.bucket }}"
     minute: "{{ item.minute }}"
     hour: "{{ item.hour }}"
     day: "{{ item.day }}"
@@ -55,5 +55,18 @@
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
       restic --repo=b2:{{ item.bucket }} backup {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }}
-  become: yes
+  loop: "{{ restic__repos }}"
+
+- name: Restic | Set up cleanup cron jobs
+  cron:
+    name: "restic.purge/{{ item.bucket }}"
+    minute: "{{ item.purge_minute }}"
+    hour: "{{ item.purge_hour }}"
+    day: "{{ item.purge_day }}"
+    month: "{{ item.purge_month }}"
+    weekday: "{{ item.purge_weekday }}"
+    job: >-
+      B2_ACCOUNT_ID={{ item.account_id }}
+      B2_ACCOUNT_KEY={{ item.account_key }}
+      restic --repo=b2:{{ item.bucket }} forget {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }} {{ item.purge_policy }} --prune
   loop: "{{ restic__repos }}"

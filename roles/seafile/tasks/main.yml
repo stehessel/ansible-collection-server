@@ -23,3 +23,14 @@
     pull: yes
     state: present
   become: yes
+
+- name: Seafile | Set up backup cron jobs
+  cron:
+    name: seafile.backup
+    minute: "{{ seafile__backup_minute }}"
+    hour: "{{ seafile__backup_hour }}"
+    day: "{{ seafile__backup_day }}"
+    month: "{{ seafile__backup_month }}"
+    weekday: "{{ seafile__backup_weekday }}"
+    job:
+      docker run --rm --volumes-from seafile-server -v /srv/seafile/backup:/backup eeacms/rsync rsync -az --delete /shared/seafile /var/lib/mysql /backup
