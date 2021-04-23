@@ -4,6 +4,7 @@ version: '3.7'
 
 services:
   seafile-server:
+    container_name: seafile-server
     image: ggogel/seafile-server
     restart: always
     security_opt:
@@ -25,6 +26,7 @@ services:
       - seafile-net
 
   seahub:
+    container_name: seahub
     image: ggogel/seahub
     restart: always
     security_opt:
@@ -43,6 +45,7 @@ services:
       - seafile-net
 
   seahub-media:
+    container_name: seahub-media
     image: ggogel/seahub-media
     restart: always
     security_opt:
@@ -59,6 +62,7 @@ services:
       - seafile-net
 
   db:
+    container_name: seafile-db
     image: mariadb:10
     restart: always
     security_opt:
@@ -72,6 +76,7 @@ services:
       - seafile-net
 
   memcached:
+    container_name: seafile-memcached
     image: memcached
     restart: always
     security_opt:
@@ -81,6 +86,7 @@ services:
       - seafile-net
 
   seafile-caddy:
+    container_name: seafile-caddy
     image: ggogel/seafile-caddy
     restart: always
     security_opt:
