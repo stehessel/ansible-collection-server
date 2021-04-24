@@ -55,4 +55,3 @@ jobs:
           MOLECULE_DISTRO=${{ matrix.molecule.distro }}
           molecule --debug test -s ${{ matrix.collection_role }}
         working-directory: ./ansible_collections/stehessel/server
-

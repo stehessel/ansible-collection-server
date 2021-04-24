@@ -6,6 +6,11 @@
       include_role:
         name: "stehessel.server.docker"
 
+    - name: "Create Caddy network"
+      community.docker.docker_network:
+        name: caddy-net
+      become: yes
+
     - name: "Include buku"
       include_role:
         name: "stehessel.server.buku"
