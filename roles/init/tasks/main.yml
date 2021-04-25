@@ -1,0 +1,38 @@
+---
+
+- name: init | Set up timesync
+  include_tasks: timesync.yml
+
+- name: init | Set locale
+  locale_gen:
+    name: "{{ init__locale }}"
+    state: present
+
+- name: init | Set hostname
+  hostname:
+    name: "{{ init__host_name }}"
+  become: yes
+
+- name: init | Setup hosts file
+  blockinfile:
+    path: /etc/hosts
+    block: |
+      127.0.0.1     localhost
+      ::1           localhost
+      127.0.0.1     "{{ init__host_name }}.{{ init__domain_name }}"
+  become: yes
+
+- name: init | Set up users
+  include_tasks: users.yml
+
+- name: init | Set up ssh
+  include_tasks: ssh.yml
+
+- name: init | Install packages
+  package:
+    name:
+      - htop
+      - neovim
+      - which
+    state: present
+  become: yes

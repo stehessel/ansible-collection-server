@@ -1,0 +1,23 @@
+---
+
+- name: init | timesync | Set timezone
+  timezone:
+    name: "{{ init__timezone }}"
+  become: yes
+  notify: timezone changed
+
+- name: init | timesync | Configure systemd-timesyncd
+  template:
+    src: timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: yes
+
+- name: init | timesync | Enable systemd-timesyncd
+  service:
+    name: systemd-timesyncd.service
+    enabled: yes
+    state: started
+  become: yes

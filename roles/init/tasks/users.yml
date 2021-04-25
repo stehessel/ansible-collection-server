@@ -1,0 +1,45 @@
+---
+
+- name: init | users | Set root password
+  user:
+    name: root
+    password: "{{ init__root_password }}"
+    state: present
+  become: yes
+
+- name: init | users | Install sudo package
+  package:
+    name: sudo
+    state: present
+  become: yes
+
+- name: init | users | Make sure 'sudo' group exists
+  group:
+    name: sudo
+    state: present
+  become: yes
+
+- name: init | users | Allow 'sudo' group to use sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) ALL'
+    validate: 'visudo -cf %s'
+  become: yes
+
+- name: init | users | Add sudo user
+  user:
+    name: "{{ init__user }}"
+    password: "{{ init__user_password }}"
+    groups:
+      - sudo
+    append: yes
+    state: present
+  become: yes
+
+- name: init | users | Disable root login
+  user:
+    name: root
+    password: '!'
+  become: yes

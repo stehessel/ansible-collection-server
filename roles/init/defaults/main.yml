@@ -1,0 +1,24 @@
+---
+
+init__timezone: Europe/Berlin
+init__ntp_hosts:
+  - 0.arch.pool.ntp.org
+  - 1.arch.pool.ntp.org
+  - 2.arch.pool.ntp.org
+  - 3.arch.pool.ntp.org
+init__fallback_ntp_hosts:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+init__locale: en_US.UTF-8
+
+init__host_name: hostname
+init__domain_name: localdomain
+
+init__root_password: <hashed-password>
+init__user: username
+init__user_password: <hashed-password>
+
+init__ssh_pub_key: server.pub
+init__sshd_port: 22

@@ -5,8 +5,7 @@
 
 - name: Rsync | Install package
   package:
-    name:
-      - rsync
+    name: rsync
     state: present
   become: yes
 
@@ -20,7 +19,7 @@
 
 - name: Rsync | Start and enable service
   service:
-    name: rsync
+    name: rsyncd
     enabled: yes
     state: started
   become: yes

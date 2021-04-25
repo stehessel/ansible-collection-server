@@ -1,0 +1,36 @@
+---
+
+- name: init | ssh | Authorize ssh key
+  ansible.posix.authorized_key:
+    user: "{{ init__user }}"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/{{ init__ssh_pub_key }}') }}"
+    state: present
+  register: authorize_key
+
+- name: init | ssh | Change SSH port
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^Port"
+    line: "Port {{ init__sshd_port }}"
+  become: yes
+  notify: restart sshd
+
+- name: init | ssh | Disable password login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#\s*)?PasswordAuthentication '
+    line: 'PasswordAuthentication no'
+  when:
+    - authorize_key is succeeded
+    - not authorize_key is skipped
+  become: yes
+  notify: restart sshd
+
+- name: init | ssh | Disable root login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
+  become: yes
+  notify: restart sshd

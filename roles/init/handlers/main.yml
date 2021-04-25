@@ -1,0 +1,13 @@
+---
+
+- name: init | Set clock to hardware clock
+  command: hwclock --systohc
+  become: yes
+  listen: timezone changed
+
+- name: init | Restart sshd
+  service:
+    name: sshd
+    state: restarted
+  become: yes
+  listen: restart sshd

@@ -1,0 +1,16 @@
+galaxy_info:
+  role_name: init
+  author: stehessel
+  description: Ansible role for initial OS setup
+  license: BSD-3-Clause
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  galaxy_tags:
+    - arch
+    - ubuntu
+dependencies: []

@@ -13,18 +13,18 @@
   file:
     path: /etc/restic/passwords
     state: directory
-    owner: "root"
-    group: "root"
-    mode: "0600"
+    owner: root
+    group: root
+    mode: u=rwx
   become: yes
 
 - name: Restic | Set up password files
   copy:
     dest: "/etc/restic/passwords/{{ item.bucket }}"
     content: "{{ item.password }}"
-    owner: "root"
-    group: "root"
-    mode: "0600"
+    owner: root
+    group: root
+    mode: u=rw
   become: yes
   loop: "{{ restic__repos }}"
 
@@ -55,6 +55,7 @@
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
       restic --repo=b2:{{ item.bucket }} backup {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }}
+  become: yes
   loop: "{{ restic__repos }}"
 
 - name: Restic | Set up cleanup cron jobs
@@ -69,4 +70,5 @@
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
       restic --repo=b2:{{ item.bucket }} forget {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }} {{ item.purge_policy }} --prune
+  become: yes
   loop: "{{ restic__repos }}"

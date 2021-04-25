@@ -1,7 +1,7 @@
 ---
 
-- name: ufw | Restart ufw
-  service:
-    name: ufw
-    state: restarted
+- name: ufw | Reload ufw
+  community.general.ufw:
+    state: reloaded
   become: yes
+  listen: reload ufw

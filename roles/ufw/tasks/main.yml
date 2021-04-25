@@ -5,14 +5,26 @@
 
 - name: ufw | Install package
   package:
-    name:
-      - ufw
+    name: ufw
     state: present
   become: yes
 
 - name: ufw | Start and enable service
-  service:
-    name: ufw
-    enabled: yes
-    state: started
+  community.general.ufw:
+    state: enabled
+  become: yes
+
+- name: ufw | Allow ansible port
+  community.general.ufw:
+    rule: allow
+    port: "{{ ansible_port }}"
+    proto: tcp
+  become: yes
+
+- name: ufw | Create rules
+  community.general.ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.protocol | default('any') }}"
+  loop: "{{ ufw__rules }}"
   become: yes
