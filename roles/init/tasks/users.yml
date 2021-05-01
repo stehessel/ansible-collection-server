@@ -5,6 +5,7 @@
     name: root
     password: "{{ init__root_password }}"
     state: present
+  changed_when:
   become: yes
 
 - name: init | users | Install sudo package
@@ -42,4 +43,5 @@
   user:
     name: root
     password: '!'
+  changed_when:
   become: yes

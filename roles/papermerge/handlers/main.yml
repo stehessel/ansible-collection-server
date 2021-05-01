@@ -1,0 +1,7 @@
+---
+
+- name: Papermerge | Restart Papermerge
+  community.docker.docker_compose:
+    project_src: "{{ papermerge__path }}"
+    state: present
+    restarted: yes

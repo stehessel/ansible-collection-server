@@ -1,0 +1,16 @@
+galaxy_info:
+  role_name: papermerge
+  author: stehessel
+  description: Ansible role to set up Papermerge
+  license: BSD-3-Clause
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
+  galaxy_tags:
+    - documents
+    - papermerge
+dependencies: []

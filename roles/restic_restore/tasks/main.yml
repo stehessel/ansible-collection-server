@@ -1,0 +1,37 @@
+---
+
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Restic | Install package
+  package:
+    name: restic
+    state: present
+  become: yes
+
+- name: Restic | Ensure password directory exists
+  file:
+    path: /etc/restic/passwords
+    state: directory
+    owner: root
+    group: root
+    mode: u=rwx
+  become: yes
+
+- name: Restic | Set up password files
+  copy:
+    dest: "/etc/restic/passwords/{{ item.bucket }}"
+    content: "{{ item.password }}"
+    owner: root
+    group: root
+    mode: u=rw
+  become: yes
+  loop: "{{ restic__repos }}"
+
+- name: Restic | Restore backup repositories
+  command:
+    cmd: "restic --repo=b2:{{ item.bucket }} restore {{ item.identifier | default('latest') }} --password-file=/etc/restic/passwords/{{ item.bucket }} --target={{ item.path }}"
+  environment:
+    B2_ACCOUNT_ID: "{{ item.account_id }}"
+    B2_ACCOUNT_KEY: "{{ item.account_key }}"
+  loop: "{{ restic__repos }}"

@@ -1,0 +1,7 @@
+---
+
+- name: Syncthing | Restart Syncthing
+  community.docker.docker_compose:
+    project_src: "{{ syncthing__path }}"
+    state: present
+    restarted: yes

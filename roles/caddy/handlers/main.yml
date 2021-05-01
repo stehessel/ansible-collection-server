@@ -1,4 +1,7 @@
 ---
 
 - name: Caddy | Restart Caddy
-  command: docker exec -w /etc/caddy caddy caddy reload
+  community.docker.docker_compose:
+    project_src: "{{ caddy__path }}"
+    state: present
+    restarted: yes

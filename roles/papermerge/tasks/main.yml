@@ -1,0 +1,34 @@
+---
+
+- name: Papermerge | Make sure Papermerge path exists
+  file:
+    path: "{{ papermerge__path }}"
+    state: directory
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+
+- name: Papermerge | Copy docker files
+  copy:
+    src: ./
+    dest: "{{ papermerge__path }}"
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+  notify: Papermerge | Restart Papermerge
+
+- name: Papermerge | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ papermerge__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Papermerge | Restart Papermerge
+
+- name: Papermerge | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ papermerge__path }}"
+    pull: yes
+    state: present
+  become: yes

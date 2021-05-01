@@ -1,0 +1,83 @@
+# {{ ansible_managed }}
+
+version: '3.7'
+
+services:
+  app:
+    image: eugenci/papermerge
+    container_name: papermerge_app
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - media_root:/opt/media
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+      - POSTGRES_DB=dbname
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    networks:
+      - papermerge-net
+      - caddy-net
+
+  db:
+    image: postgres:12.3
+    container_name: postgres_db
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+      - POSTGRES_DB=dbname
+    networks:
+      - papermerge-net
+
+  redis:
+    container_name: redis
+    image: redis:6
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 127.0.0.1:6379:6379
+    volumes:
+      - redisdata:/data
+    networks:
+      - papermerge-net
+
+  worker:
+    image: eugenci/papermerge-worker
+    container_name: papermerge_worker
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - media_root:/opt/media
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.production
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+      - POSTGRES_DB=dbname
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    networks:
+      - papermerge-net
+
+volumes:
+  postgres_data:
+  media_root:
+  redisdata:
+
+networks:
+  papermerge-net:
+    internal: true
+  caddy-net:
+    external: true

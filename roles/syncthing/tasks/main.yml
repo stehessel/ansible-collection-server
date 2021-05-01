@@ -1,0 +1,39 @@
+---
+
+- name: Syncthing | Make sure Syncthing path exists
+  file:
+    path: "{{ syncthing__path }}"
+    state: directory
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+
+- name: Syncthing | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ syncthing__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Syncthing | Restart Syncthing
+
+- name: Syncthing | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ syncthing__path }}"
+    pull: yes
+    state: present
+  become: yes
+
+- name: Docker | Set up ufw rules
+  community.general.ufw:
+    rule: allow
+    port: "{{ item.port }}"
+    proto: "{{ item.protocol }}"
+  become: yes
+  loop:
+    - port: 22000
+      protocol: tcp
+    - port: 22000
+      protocol: udp
+    - port: 21027
+      protocol: udp
