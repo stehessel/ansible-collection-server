@@ -17,7 +17,7 @@
     encode gzip
 
 {% if service.type == "file_server" %}
-    root * /srv
+    root * {{ service.srv_path }}
     file_server browse
 {% elif service.type == "reverse_proxy" %}
     reverse_proxy {{ service.proxy_name }}:{{ service.proxy_port }}
