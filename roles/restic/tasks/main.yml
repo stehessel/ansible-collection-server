@@ -30,7 +30,7 @@
 
 - name: Restic | Create backup repositories
   command:
-    cmd: "restic --repo=b2:{{ item.bucket }} init --password-file=/etc/restic/passwords/{{ item.bucket }}"
+    cmd: "restic --repo=b2:{{ item.bucket }} --password-file=/etc/restic/passwords/{{ item.bucket }} init"
   environment:
     B2_ACCOUNT_ID: "{{ item.account_id }}"
     B2_ACCOUNT_KEY: "{{ item.account_key }}"
@@ -54,7 +54,7 @@
     job: >-
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
-      restic --repo=b2:{{ item.bucket }} backup {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }}
+      restic --repo=b2:{{ item.bucket }} --password-file=/etc/restic/passwords/{{ item.bucket }} backup {{ item.path }}
   become: yes
   loop: "{{ restic__repos }}"
 
@@ -69,6 +69,6 @@
     job: >-
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
-      restic --repo=b2:{{ item.bucket }} forget {{ item.path }} --password-file=/etc/restic/passwords/{{ item.bucket }} {{ item.purge_policy }} --prune
+      restic --repo=b2:{{ item.bucket }} --password-file=/etc/restic/passwords/{{ item.bucket }} forget {{ item.purge_policy }} --prune
   become: yes
   loop: "{{ restic__repos }}"
