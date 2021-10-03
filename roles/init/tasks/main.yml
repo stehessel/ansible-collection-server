@@ -8,11 +8,6 @@
     name: "{{ init__locale }}"
     state: present
 
-- name: init | Set hostname
-  hostname:
-    name: "{{ init__host_name }}"
-  become: yes
-
 - name: init | Setup hosts file
   blockinfile:
     path: /etc/hosts
