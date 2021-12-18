@@ -1,3 +1,4 @@
 ---
 
 papermerge__path: /srv/papermerge
+papermerge__import_dir: /srv/syncthing/sync/Scans
