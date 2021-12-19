@@ -2,11 +2,15 @@
 
 - name: Papermerge | Make sure Papermerge path exists
   file:
-    path: "{{ papermerge__path }}"
+    path: "{{ item }}"
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
   become: yes
+  loop:
+    - "{{ papermerge__path }}"
+    - "{{ papermerge__path }}/backup"
+    - "{{ papermerge__path }}/media"
 
 - name: Papermerge | Copy docker files
   copy:

@@ -13,7 +13,7 @@ services:
       - db
       - redis
     volumes:
-      - media_root:/opt/media
+      - {{ papermerge__path }}/media:/opt/media
       - {{ papermerge__path }}/config/app.production.py:/etc/papermerge.conf.py
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
@@ -61,7 +61,7 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - media_root:/opt/media
+      - {{ papermerge__path }}/media:/opt/media
       - {{ papermerge__path }}/config/worker.production.py:/etc/papermerge.conf.py
       - {{ papermerge__import_dir }}:/opt/import
     environment:
@@ -76,7 +76,6 @@ services:
 
 volumes:
   postgres_data:
-  media_root:
   redisdata:
 
 networks:
