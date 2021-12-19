@@ -1,10 +1,10 @@
 ---
 
 - name: Caddy | Config
-  include_tasks: config.yml
+  import_tasks: config.yml
 
 - name: Caddy | Docker
-  include_tasks: docker.yml
+  import_tasks: docker.yml
 
 - name: Docker | Set up ufw rules
   community.general.ufw:

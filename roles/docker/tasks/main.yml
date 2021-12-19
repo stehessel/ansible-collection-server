@@ -19,10 +19,10 @@
   become: yes
 
 - name: Docker | Config
-  include_tasks: config.yml
+  import_tasks: config.yml
 
 - name: Docker | Add users
-  include_tasks: add_users.yml
+  import_tasks: add_users.yml
 
 - name: Docker | Cron jobs
-  include_tasks: cron.yml
+  import_tasks: cron.yml

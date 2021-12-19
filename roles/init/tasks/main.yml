@@ -1,7 +1,7 @@
 ---
 
 - name: init | Set up timesync
-  include_tasks: timesync.yml
+  import_tasks: timesync.yml
 
 - name: init | Set locale
   locale_gen:
@@ -18,10 +18,10 @@
   become: yes
 
 - name: init | Set up users
-  include_tasks: users.yml
+  import_tasks: users.yml
 
 - name: init | Set up ssh
-  include_tasks: ssh.yml
+  import_tasks: ssh.yml
 
 - name: init | Install packages
   package:
