@@ -1,7 +1,0 @@
----
-
-- name: Seafile | Restart Seafile
-  community.docker.docker_compose:
-    project_src: "{{ seafile__path }}"
-    state: present
-    restarted: yes
