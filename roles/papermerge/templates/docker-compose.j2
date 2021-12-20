@@ -4,7 +4,7 @@ version: '3.7'
 
 services:
   app:
-    image: eugenci/papermerge:2.0.0
+    image: eugenci/papermerge:2.0
     container_name: papermerge_app
     restart: always
     security_opt:
@@ -28,7 +28,7 @@ services:
 
   db:
     image: postgres:12.3
-    container_name: postgres_db
+    container_name: papermerge_db
     restart: always
     security_opt:
       - no-new-privileges:true
@@ -42,8 +42,8 @@ services:
       - papermerge-net
 
   redis:
-    container_name: redis
     image: redis:6
+    container_name: papermerge_redis
     restart: always
     security_opt:
       - no-new-privileges:true
@@ -55,7 +55,7 @@ services:
       - papermerge-net
 
   worker:
-    image: eugenci/papermerge-worker:v2.0.0
+    image: eugenci/papermerge-worker:2.0
     container_name: papermerge_worker
     restart: always
     security_opt:

@@ -11,8 +11,8 @@ services:
     security_opt:
       - no-new-privileges:true
     user: root
-    depends_on:
-      - cadvisor
+    # depends_on:
+    #   - cadvisor
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -43,19 +43,19 @@ services:
       - /:/rootfs:ro
 
   # Docker container metrics collector
-  cadvisor:
-    image: google/cadvisor
-    container_name: cadvisor
-    hostname: cadvisor
-    restart: always
-    security_opt:
-      - no-new-privileges:true
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker:/var/lib/docker:ro
-      - /cgroup:/cgroup:ro
+  # cadvisor:
+  #   image: google/cadvisor
+  #   container_name: cadvisor
+  #   hostname: cadvisor
+  #   restart: always
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker:/var/lib/docker:ro
+  #     - /cgroup:/cgroup:ro
 
 networks:
   default:

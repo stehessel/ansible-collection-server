@@ -2,3 +2,9 @@
 
 papermerge__path: /srv/papermerge
 papermerge__import_dir: /srv/syncthing/sync/Scans
+
+papermerge__backup_minute: "0"
+papermerge__backup_hour: "12"
+papermerge__backup_day: "1"
+papermerge__backup_month: "*"
+papermerge__backup_weekday: "*"

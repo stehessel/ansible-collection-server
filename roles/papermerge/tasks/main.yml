@@ -1,5 +1,4 @@
 ---
-
 - name: Papermerge | Make sure Papermerge path exists
   file:
     path: "{{ item }}"
@@ -35,4 +34,16 @@
     project_src: "{{ papermerge__path }}"
     pull: yes
     state: present
+  become: yes
+
+- name: Papermerge | Set up database backup cron job
+  cron:
+    name: "papermerge.backup/postgres"
+    minute: "{{ papermerge__backup_minute }}"
+    hour: "{{ papermerge__backup_hour }}"
+    day: "{{ papermerge__backup_day }}"
+    month: "{{ papermerge__backup_month }}"
+    weekday: "{{ papermerge__backup_weekday }}"
+    job: >-
+      docker exec -t papermerge_db pg_dumpall -c -U dbuser > {{ papermerge__path }}/backup/dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
   become: yes
