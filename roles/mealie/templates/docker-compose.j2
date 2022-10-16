@@ -12,7 +12,7 @@ services:
     ports:
       - {{ mealie__port }}:80
     depends_on:
-      - db
+      - postgres
     environment:
       PUID: 1000
       PGID: 1000
@@ -44,7 +44,7 @@ services:
       - caddy-net
       - mealie-net
 
-  db:
+  postgres:
     container_name: mealie-db
     image: postgres
     restart: always
