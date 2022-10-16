@@ -1,0 +1,24 @@
+---
+- name: Mealie | Make sure Mealie path exists
+  file:
+    path: "{{ mealie__path }}"
+    state: directory
+    group: docker
+    mode: u=rwX,g=rwX,o=rX
+  become: yes
+
+- name: Mealie | Copy docker-compose.yml
+  template:
+    src: docker-compose.j2
+    dest: "{{ mealie__path }}/docker-compose.yml"
+    group: docker
+    mode: u=rw,g=rw,o=r
+  become: yes
+  notify: Mealie | Restart Mealie
+
+- name: Mealie | Pull image and start service
+  community.docker.docker_compose:
+    project_src: "{{ mealie__path }}"
+    pull: yes
+    state: present
+  become: yes

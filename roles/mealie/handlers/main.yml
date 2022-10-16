@@ -1,0 +1,7 @@
+---
+
+- name: Mealie | Restart Mealie
+  community.docker.docker_compose:
+    project_src: "{{ mealie__path }}"
+    state: present
+    restarted: yes

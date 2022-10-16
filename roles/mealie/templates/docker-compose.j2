@@ -1,0 +1,63 @@
+# {{ ansible_managed }}
+
+version: '3.7'
+
+services:
+  mealie:
+    container_name: mealie
+    image: hkotel/mealie:latest
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 9090:80
+    depends_on:
+      - db
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Berlin
+
+      # Database Settings
+      DB_ENGINE: postgres # Optional: 'sqlite', 'postgres'
+      POSTGRES_USER: mealie
+      POSTGRES_PASSWORD: mealie
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: mealie
+
+      # Default Recipe Settings
+      RECIPE_PUBLIC: 'true'
+      RECIPE_SHOW_NUTRITION: 'true'
+      RECIPE_SHOW_ASSETS: 'true'
+      RECIPE_LANDSCAPE_VIEW: 'true'
+      RECIPE_DISABLE_COMMENTS: 'false'
+      RECIPE_DISABLE_AMOUNT: 'false'
+
+      # Gunicorn
+      # WEB_CONCURRENCY: 2
+      # WORKERS_PER_CORE: 0.5
+      # MAX_WORKERS: 8
+    volumes:
+      - {{ mealie__path }}/data:/app/data
+    networks:
+      - caddy-net
+      - mealie-net
+
+  db:
+    container_name: mealie-db
+    image: postgres
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      POSTGRES_PASSWORD: mealie
+      POSTGRES_USER: mealie
+    networks:
+      - mealie-net
+
+networks:
+  caddy-net:
+    external: true
+  mealie-net:
+    internal: true
