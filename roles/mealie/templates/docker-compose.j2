@@ -10,7 +10,7 @@ services:
     security_opt:
       - no-new-privileges:true
     ports:
-      - 9090:80
+      - {{ mealie__port }}:80
     depends_on:
       - db
     environment:
