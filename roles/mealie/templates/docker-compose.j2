@@ -5,7 +5,7 @@ version: '3.7'
 services:
   mealie:
     container_name: mealie
-    image: hkotel/mealie:latest
+    image: hkotel/mealie:{{ mealie__version }}
     restart: always
     security_opt:
       - no-new-privileges:true
