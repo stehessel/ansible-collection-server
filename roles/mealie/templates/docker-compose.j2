@@ -9,8 +9,6 @@ services:
     restart: always
     security_opt:
       - no-new-privileges:true
-    ports:
-      - {{ mealie__port }}:80
     depends_on:
       - postgres
     environment:

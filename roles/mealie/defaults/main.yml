@@ -1,4 +1,3 @@
 ---
 mealie__path: /srv/mealie
-mealie__port: 9925
 mealie__version: v0.5.6
