@@ -36,7 +36,7 @@ services:
       - TZ=Europe/Berlin
       - MAX_WORKERS=1
       - WEB_CONCURRENCY=1
-      - BASE_URL=https://mealie.hesselmann.family
+      - BASE_URL={{ mealie__base_url }}
 
       - DB_ENGINE=postgres
       - POSTGRES_USER=mealie
