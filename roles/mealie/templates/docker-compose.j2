@@ -1,58 +1,67 @@
 # {{ ansible_managed }}
 
-version: '3.7'
+version: "3.7"
 
 services:
-  mealie:
-    container_name: mealie
-    image: hkotel/mealie:{{ mealie__version }}
-    restart: always
+  mealie-frontend:
+    image: hkotel/mealie:frontend-{{ mealie__version }}
+    container_name: mealie-frontend
+    depends_on:
+      - mealie-api
     security_opt:
       - no-new-privileges:true
-    depends_on:
-      - postgres
+    restart: always
     environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: Europe/Berlin
-
-      # Database Settings
-      DB_ENGINE: postgres # Optional: 'sqlite', 'postgres'
-      POSTGRES_USER: mealie
-      POSTGRES_PASSWORD: mealie
-      POSTGRES_SERVER: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: mealie
-
-      # Default Recipe Settings
-      RECIPE_PUBLIC: 'false'
-      RECIPE_SHOW_NUTRITION: 'true'
-      RECIPE_SHOW_ASSETS: 'true'
-      RECIPE_LANDSCAPE_VIEW: 'true'
-      RECIPE_DISABLE_COMMENTS: 'false'
-      RECIPE_DISABLE_AMOUNT: 'false'
-
-      # Gunicorn
-      # WEB_CONCURRENCY: 2
-      # WORKERS_PER_CORE: 0.5
-      # MAX_WORKERS: 8
+      - API_URL=http://mealie-api:9000
     volumes:
-      - {{ mealie__path }}/data:/app/data
+      - mealie-data:/app/data/
     networks:
       - caddy-net
       - mealie-net
 
-  postgres:
-    container_name: mealie-db
-    image: postgres
-    restart: always
+  mealie-api:
+    image: hkotel/mealie:api-{{ mealie__version }}
+    container_name: mealie-api
+    depends_on:
+      - postgres
     security_opt:
       - no-new-privileges:true
+    restart: always
+    volumes:
+      - mealie-data:/app/data/
+    environment:
+      - ALLOW_SIGNUP=true
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - MAX_WORKERS=1
+      - WEB_CONCURRENCY=1
+      - BASE_URL=https://mealie.hesselmann.family
+
+      - DB_ENGINE=postgres
+      - POSTGRES_USER=mealie
+      - POSTGRES_PASSWORD=mealie
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=mealie
+    networks:
+      - mealie-net
+
+  postgres:
+    container_name: mealie-postgres
+    image: postgres
+    security_opt:
+      - no-new-privileges:true
+    restart: always
     environment:
       POSTGRES_PASSWORD: mealie
       POSTGRES_USER: mealie
     networks:
       - mealie-net
+
+volumes:
+  mealie-data:
+    driver: local
 
 networks:
   caddy-net:
