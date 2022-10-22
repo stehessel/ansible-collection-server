@@ -30,11 +30,11 @@ services:
     volumes:
       - mealie-data:/app/data/
     environment:
-      - ALLOW_SIGNUP=true
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - MAX_WORKERS=1
+      - ALLOW_SIGNUP={{ mealie__allow_signup }}
+      - MAX_WORKERS={{ mealie__max_workers }}
       - WEB_CONCURRENCY=1
       - BASE_URL={{ mealie__base_url }}
 

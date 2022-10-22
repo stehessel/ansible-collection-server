@@ -2,3 +2,5 @@
 mealie__base_url: https://mealie.hesselmann.family
 mealie__path: /srv/mealie
 mealie__version: v1.0.0beta-4
+mealie__allow_signup: false
+mealie__max_workers: 2
