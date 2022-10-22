@@ -38,6 +38,12 @@ services:
       - WEB_CONCURRENCY=1
       - BASE_URL={{ mealie__base_url }}
 
+      - SMTP_HOST={{ mealie__smtp_host }}
+      - SMTP_PORT={{ mealie__smtp_port }}
+      - SMTP_FROM_EMAIL={{ mealie__from_email }}
+      - SMTP_USER={{ mealie__email_user }}
+      - SMTP_PASSWORD={{ mealie__email_password }}
+
       - DB_ENGINE=postgres
       - POSTGRES_USER=mealie
       - POSTGRES_PASSWORD=mealie
