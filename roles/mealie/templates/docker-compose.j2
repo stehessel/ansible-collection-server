@@ -22,8 +22,6 @@ services:
   mealie-api:
     image: hkotel/mealie:api-{{ mealie__version }}
     container_name: mealie-api
-    depends_on:
-      - postgres
     security_opt:
       - no-new-privileges:true
     restart: always
@@ -45,29 +43,10 @@ services:
       - SMTP_FROM_EMAIL={{ mealie__from_email }}
       - SMTP_USER={{ mealie__email_user }}
       - SMTP_PASSWORD={{ mealie__email_password }}
-
-      - DB_ENGINE=postgres
-      - POSTGRES_USER=mealie
-      - POSTGRES_PASSWORD=mealie
-      - POSTGRES_SERVER=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB=mealie
     volumes:
       - mealie-data:/app/data/
     networks:
       - caddy-net
-      - mealie-net
-
-  postgres:
-    container_name: mealie-postgres
-    image: postgres
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: mealie
-      POSTGRES_USER: mealie
-    networks:
       - mealie-net
 
 volumes:
