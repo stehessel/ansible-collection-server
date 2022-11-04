@@ -1,11 +1,14 @@
 ---
 - name: Mealie | Make sure Mealie path exists
   file:
-    path: "{{ mealie__path }}"
+    path: "{{ item }}"
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
   become: yes
+  loop:
+    - "{{ mealie__path }}"
+    - "{{ mealie__path }}/backup"
 
 - name: Mealie | Copy docker-compose.yml
   template:
@@ -21,4 +24,18 @@
     project_src: "{{ mealie__path }}"
     pull: yes
     state: present
+  become: yes
+
+- name: Mealie | Set up database backup cron job
+  cron:
+    name: "mealie.backup/sqlite"
+    minute: "{{ mealie__backup_minute }}"
+    hour: "{{ mealie__backup_hour }}"
+    day: "{{ mealie__backup_day }}"
+    month: "{{ mealie__backup_month }}"
+    weekday: "{{ mealie__backup_weekday }}"
+    job: >-
+      docker container stop mealie-api
+      docker container cp mealie-api:/app/data {{ mealie__path }}/backup
+      docker container start mealie-api
   become: yes

@@ -4,3 +4,9 @@ mealie__path: /srv/mealie
 mealie__version: v1.0.0beta-5
 mealie__allow_signup: false
 mealie__max_workers: 2
+
+mealie__backup_minute: "0"
+mealie__backup_hour: "12"
+mealie__backup_day: "1"
+mealie__backup_month: "*"
+mealie__backup_weekday: "*"
