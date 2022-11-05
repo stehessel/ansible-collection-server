@@ -5,7 +5,7 @@
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
-  become: yes
+  become: true
   loop:
     - "{{ mealie__path }}"
     - "{{ mealie__path }}/backup"
@@ -16,7 +16,7 @@
     dest: "{{ mealie__path }}/docker-compose.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Mealie | Restart Mealie
 
 - name: Mealie | Pull image and start service
@@ -24,7 +24,7 @@
     project_src: "{{ mealie__path }}"
     pull: yes
     state: present
-  become: yes
+  become: true
 
 - name: Mealie | Set up database backup cron job
   cron:
@@ -35,7 +35,7 @@
     month: "{{ mealie__backup_month }}"
     weekday: "{{ mealie__backup_weekday }}"
     job: >-
-      docker container stop mealie-api
-      docker container cp mealie-api:/app/data {{ mealie__path }}/backup
+      docker container stop mealie-api &&
+      docker container cp mealie-api:/app/data {{ mealie__path }}/backup &&
       docker container start mealie-api
-  become: yes
+  become: true
