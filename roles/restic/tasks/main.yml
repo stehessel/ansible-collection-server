@@ -1,5 +1,4 @@
 ---
-
 - import_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
 
@@ -7,7 +6,7 @@
   package:
     name: restic
     state: present
-  become: yes
+  become: true
 
 - name: Restic | Ensure password directory exists
   file:
@@ -16,7 +15,7 @@
     owner: root
     group: root
     mode: u=rwx
-  become: yes
+  become: true
 
 - name: Restic | Set up password files
   copy:
@@ -25,7 +24,7 @@
     owner: root
     group: root
     mode: u=rw
-  become: yes
+  become: true
   loop: "{{ restic__repos }}"
 
 - name: Restic | Create backup repositories
@@ -40,35 +39,35 @@
   failed_when:
     - result.rc != 0
     - '"config already exists" not in result.stderr'
-  become: yes
+  become: true
   loop: "{{ restic__repos }}"
 
 - name: Restic | Set up backup cron jobs
   cron:
     name: "restic.backup/{{ item.bucket }}"
-    minute: "{{ item.minute }}"
-    hour: "{{ item.hour }}"
-    day: "{{ item.day }}"
-    month: "{{ item.month }}"
-    weekday: "{{ item.weekday }}"
+    minute: "{{ item.minute if item.minute is defined else restic__minute }}"
+    hour: "{{ item.hour if item.minute is defined else restic__hour }}"
+    day: "{{ item.day if item.minute is defined else restic__day }}"
+    month: "{{ item.month if item.minute is defined else restic__month }}"
+    weekday: "{{ item.weekday if item.minute is defined else restic__weekday }}"
     job: >-
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
       restic --repo=b2:{{ item.bucket }} --password-file=/etc/restic/passwords/{{ item.bucket }} backup {{ item.path }}
-  become: yes
+  become: true
   loop: "{{ restic__repos }}"
 
 - name: Restic | Set up cleanup cron jobs
   cron:
     name: "restic.purge/{{ item.bucket }}"
-    minute: "{{ item.purge_minute }}"
-    hour: "{{ item.purge_hour }}"
-    day: "{{ item.purge_day }}"
-    month: "{{ item.purge_month }}"
-    weekday: "{{ item.purge_weekday }}"
+    minute: "{{ item.purge_minute if item.purge_minute is defined else restic__purge_minute }}"
+    hour: "{{ item.purge_hour if item.purge_hour is defined else restic__purge_hour }}"
+    day: "{{ item.purge_day if item.purge_day is defined else restic__purge_day }}"
+    month: "{{ item.purge_month if item.purge_month is defined else restic__purge_month }}"
+    weekday: "{{ item.purge_weekday if item.purge_weekday is defined else restic__purge_weekday }}"
     job: >-
       B2_ACCOUNT_ID={{ item.account_id }}
       B2_ACCOUNT_KEY={{ item.account_key }}
-      restic --repo=b2:{{ item.bucket }} --password-file=/etc/restic/passwords/{{ item.bucket }} forget {{ item.purge_policy }} --prune
-  become: yes
+      restic --repo=b2:{{ item.bucket }} --password-file=/etc/restic/passwords/{{ item.bucket }} forget {{ item.purge_policy if item.purge_policy is defined else restic__purge_policy }} --prune
+  become: true
   loop: "{{ restic__repos }}"

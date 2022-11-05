@@ -1,3 +1,15 @@
 ---
-
 restic__repos: []
+
+restic__minute: "0"
+restic__hour: "*"
+restic__day: "*"
+restic__month: "*"
+restic__weekday: "*"
+
+restic__purge_policy: "--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 100"
+restic__purge_minute: "30"
+restic__purge_hour: "0"
+restic__purge_day: "*"
+restic__purge_month: "*"
+restic__purge_weekday: "1"
