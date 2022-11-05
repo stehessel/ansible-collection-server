@@ -28,7 +28,7 @@
 
 - name: Mealie | Set up database backup cron job
   cron:
-    name: "mealie.backup/sqlite"
+    name: "mealie.backup/data"
     minute: "{{ mealie__backup_minute }}"
     hour: "{{ mealie__backup_hour }}"
     day: "{{ mealie__backup_day }}"
