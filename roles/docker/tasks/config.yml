@@ -13,7 +13,7 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  become: yes
+  become: true
   when: not etc_docker.stat.exists
 
 - name: Docker | Config | Deploy /etc/docker/daemon.json
@@ -23,5 +23,5 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  become: yes
+  become: true
   notify: Docker | Restart Docker

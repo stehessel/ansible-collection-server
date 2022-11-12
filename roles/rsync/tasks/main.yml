@@ -7,14 +7,14 @@
   package:
     name: rsync
     state: present
-  become: yes
+  become: true
 
 - name: Rsync | Deploy rsyncd.conf
   template:
     src: rsyncd.conf.j2
     dest: /etc/rsyncd.conf
     mode: u=rw,g=r,o=r
-  become: yes
+  become: true
   notify: Rsync | Restart rsync
 
 - name: Rsync | Start and enable service
@@ -22,10 +22,10 @@
     name: rsyncd
     enabled: yes
     state: started
-  become: yes
+  become: true
 
 - name: Rsync | Set up ufw rules
   community.general.ufw:
     rule: allow
     port: "873"
-  become: yes
+  become: true

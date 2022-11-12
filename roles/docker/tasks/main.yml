@@ -9,14 +9,14 @@
       - "{{ docker__package }}"
       - docker-compose
     state: "{{ docker__state }}"
-  become: yes
+  become: true
 
 - name: Docker | Start and enable service
   service:
     name: docker
     enabled: "{{ docker__service_enabled }}"
     state: started
-  become: yes
+  become: true
 
 - name: Docker | Config
   import_tasks: config.yml

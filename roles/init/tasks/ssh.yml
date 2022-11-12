@@ -12,7 +12,7 @@
     dest: /etc/ssh/sshd_config
     regexp: "^Port"
     line: "Port {{ init__sshd_port }}"
-  become: yes
+  become: true
   notify: restart sshd
 
 - name: init | ssh | Disable password login
@@ -23,7 +23,7 @@
   when:
     - authorize_key is succeeded
     - not authorize_key is skipped
-  become: yes
+  become: true
   notify: restart sshd
 
 - name: init | ssh | Disable root login
@@ -32,5 +32,5 @@
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
     state: present
-  become: yes
+  become: true
   notify: restart sshd

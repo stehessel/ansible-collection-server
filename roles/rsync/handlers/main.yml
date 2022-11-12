@@ -4,4 +4,4 @@
   service:
     name: rsync
     state: restarted
-  become: yes
+  become: true

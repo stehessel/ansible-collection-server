@@ -7,7 +7,7 @@
   package:
     name: restic
     state: present
-  become: yes
+  become: true
 
 - name: Restic | Ensure password directory exists
   file:
@@ -16,7 +16,7 @@
     owner: root
     group: root
     mode: u=rwx
-  become: yes
+  become: true
 
 - name: Restic | Set up password files
   copy:
@@ -25,7 +25,7 @@
     owner: root
     group: root
     mode: u=rw
-  become: yes
+  become: true
   loop: "{{ restic__repos }}"
 
 - name: Restic | Restore backup repositories

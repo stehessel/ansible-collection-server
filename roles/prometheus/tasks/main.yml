@@ -6,7 +6,7 @@
     state: directory
     group: docker
     mode: u=rwx,g=rwx,o=rx
-  become: yes
+  become: true
 
 - name: Prometheus | Copy docker-compose.yml
   template:
@@ -14,7 +14,7 @@
     dest: "{{ prometheus__path }}/docker-compose.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Prometheus | Restart Prometheus
 
 - name: Prometheus | Copy prometheus.yml
@@ -23,7 +23,7 @@
     dest: "{{ prometheus__path }}/prometheus.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Prometheus | Restart Prometheus
 
 - name: Prometheus | Pull image and start service
@@ -31,4 +31,4 @@
     project_src: "{{ prometheus__path }}"
     pull: yes
     state: present
-  become: yes
+  become: true

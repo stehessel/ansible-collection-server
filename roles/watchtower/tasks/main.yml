@@ -6,7 +6,7 @@
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
-  become: yes
+  become: true
 
 - name: Watchtower | Copy docker-compose.yml
   template:
@@ -14,7 +14,7 @@
     dest: "{{ watchtower__path }}/docker-compose.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Watchtower | Restart Watchtower
 
 - name: Watchtower | Pull image and start service
@@ -22,4 +22,4 @@
     project_src: "{{ watchtower__path }}"
     pull: yes
     state: present
-  become: yes
+  become: true

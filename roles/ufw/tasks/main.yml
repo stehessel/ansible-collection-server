@@ -7,19 +7,19 @@
   package:
     name: ufw
     state: present
-  become: yes
+  become: true
 
 - name: ufw | Start and enable service
   community.general.ufw:
     state: enabled
-  become: yes
+  become: true
 
 - name: ufw | Allow ansible port
   community.general.ufw:
     rule: allow
     port: "{{ ansible_port }}"
     proto: tcp
-  become: yes
+  become: true
 
 - name: ufw | Create rules
   community.general.ufw:
@@ -27,4 +27,4 @@
     port: "{{ item.port }}"
     proto: "{{ item.protocol | default('any') }}"
   loop: "{{ ufw__rules }}"
-  become: yes
+  become: true

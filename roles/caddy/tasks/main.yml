@@ -10,7 +10,7 @@
   community.general.ufw:
     rule: allow
     port: "{{ item }}"
-  become: yes
+  become: true
   loop:
     - http
     - https

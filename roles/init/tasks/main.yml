@@ -15,7 +15,7 @@
       127.0.0.1     localhost
       ::1           localhost
       127.0.0.1     "{{ init__host_name }}.{{ init__domain_name }}"
-  become: yes
+  become: true
 
 - name: init | Set up users
   import_tasks: users.yml
@@ -30,4 +30,4 @@
       - neovim
       - which
     state: present
-  become: yes
+  become: true

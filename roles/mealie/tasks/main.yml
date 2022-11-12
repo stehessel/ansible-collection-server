@@ -35,7 +35,7 @@
     month: "{{ mealie__backup_month }}"
     weekday: "{{ mealie__backup_weekday }}"
     job: >-
-      docker container stop mealie-api &&
-      docker container cp mealie-api:/app/data {{ mealie__path }}/backup &&
-      docker container start mealie-api
+      /usr/bin/docker container stop mealie-api &&
+      /usr/bin/docker container cp mealie-api:/app/data {{ mealie__path }}/backup &&
+      /usr/bin/docker container start mealie-api
   become: true

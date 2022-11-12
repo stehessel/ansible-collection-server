@@ -7,7 +7,7 @@
     group: docker
     mode: u=rwX,g=rwX,o=rX
     recurse: yes
-  become: yes
+  become: true
 
 - name: Buku | Copy docker-compose.yml
   template:
@@ -15,7 +15,7 @@
     dest: "{{ buku__path }}/docker-compose.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: buku | Restart buku
 
 - name: Buku | Pull image and start service
@@ -23,4 +23,4 @@
     project_src: "{{ buku__path }}"
     pull: yes
     state: present
-  become: yes
+  become: true

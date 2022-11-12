@@ -7,7 +7,7 @@
     state: directory
     group: docker
     mode: u=rwx,g=rwx,o=rx
-  become: yes
+  become: true
 
 - name: Caddy | Config | Make sure serve path exists
   file:
@@ -15,7 +15,7 @@
     state: directory
     group: docker
     mode: u=rwx,g=rwx,o=rx
-  become: yes
+  become: true
 
 - name: Caddy | Config | Deploy Caddyfile
   template:
@@ -23,5 +23,5 @@
     dest: "{{ caddy__path }}/Caddyfile"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Caddy | Restart Caddy

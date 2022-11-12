@@ -6,19 +6,19 @@
     password: "{{ init__root_password }}"
     state: present
   changed_when:
-  become: yes
+  become: true
 
 - name: init | users | Install sudo package
   package:
     name: sudo
     state: present
-  become: yes
+  become: true
 
 - name: init | users | Make sure 'sudo' group exists
   group:
     name: sudo
     state: present
-  become: yes
+  become: true
 
 - name: init | users | Allow 'sudo' group to use sudo
   lineinfile:
@@ -27,7 +27,7 @@
     regexp: '^%sudo'
     line: '%sudo ALL=(ALL) ALL'
     validate: 'visudo -cf %s'
-  become: yes
+  become: true
 
 - name: init | users | Add sudo user
   user:
@@ -37,11 +37,11 @@
       - sudo
     append: yes
     state: present
-  become: yes
+  become: true
 
 - name: init | users | Disable root login
   user:
     name: root
     password: '!'
   changed_when:
-  become: yes
+  become: true

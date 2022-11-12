@@ -3,5 +3,5 @@
 - name: ufw | Reload ufw
   community.general.ufw:
     state: reloaded
-  become: yes
+  become: true
   listen: reload ufw

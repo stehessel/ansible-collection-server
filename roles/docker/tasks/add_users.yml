@@ -4,7 +4,7 @@
   group:
     name: docker
     state: present
-  become: yes
+  become: true
 
 - name: Docker | Add Users | Add users to "docker" group
   user:
@@ -12,7 +12,7 @@
     groups:
       - docker
     append: yes
-  become: yes
+  become: true
   loop: "{{ docker__users }}"
   when: docker__users is defined
 

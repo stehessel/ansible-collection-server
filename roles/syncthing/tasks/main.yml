@@ -6,7 +6,7 @@
     state: directory
     group: docker
     mode: u=rwX,g=rwX,o=rX
-  become: yes
+  become: true
 
 - name: Syncthing | Copy docker-compose.yml
   template:
@@ -14,7 +14,7 @@
     dest: "{{ syncthing__path }}/docker-compose.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Syncthing | Restart Syncthing
 
 - name: Syncthing | Pull image and start service
@@ -22,14 +22,14 @@
     project_src: "{{ syncthing__path }}"
     pull: yes
     state: present
-  become: yes
+  become: true
 
 - name: Docker | Set up ufw rules
   community.general.ufw:
     rule: allow
     port: "{{ item.port }}"
     proto: "{{ item.protocol }}"
-  become: yes
+  become: true
   loop:
     - port: 22000
       protocol: tcp

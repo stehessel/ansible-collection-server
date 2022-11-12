@@ -3,7 +3,7 @@
 - name: init | timesync | Set timezone
   timezone:
     name: "{{ init__timezone }}"
-  become: yes
+  become: true
   notify: timezone changed
 
 - name: init | timesync | Configure systemd-timesyncd
@@ -13,11 +13,11 @@
     owner: root
     group: root
     mode: u=rw,g=r,o=r
-  become: yes
+  become: true
 
 - name: init | timesync | Enable systemd-timesyncd
   service:
     name: systemd-timesyncd.service
     enabled: yes
     state: started
-  become: yes
+  become: true

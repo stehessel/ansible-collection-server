@@ -6,7 +6,7 @@
     dest: "{{ caddy__path }}/docker-compose.yml"
     group: docker
     mode: u=rw,g=rw,o=r
-  become: yes
+  become: true
   notify: Caddy | Restart Caddy
 
 - name: Caddy | Docker | Pull image and start service
@@ -14,4 +14,4 @@
     project_src: "{{ caddy__path }}"
     pull: yes
     state: present
-  become: yes
+  become: true
