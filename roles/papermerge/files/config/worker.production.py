@@ -19,5 +19,9 @@ OCR_LANGUAGES = {
     "eng": "English",
     "fra": "Français",
     "rus": "Русский",
-    "ron": "Română"
+    "ron": "Română",
+}
+
+LOGGING = {
+    "disable_existing_loggers": True,
 }
