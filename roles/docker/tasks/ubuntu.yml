@@ -1,5 +1,4 @@
 ---
-
 - name: Docker | Ubuntu | Update repositories cache
   apt:
     update_cache: yes
