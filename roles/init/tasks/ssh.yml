@@ -1,9 +1,8 @@
 ---
-
 - name: init | ssh | Authorize ssh key
   ansible.posix.authorized_key:
     user: "{{ init__user }}"
-    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/{{ init__ssh_pub_key }}') }}"
+    key: "{{ lookup('file', '{{ init__ssh_pub_key }}') }}"
     state: present
   register: authorize_key
 
@@ -19,7 +18,7 @@
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: '^(#\s*)?PasswordAuthentication '
-    line: 'PasswordAuthentication no'
+    line: "PasswordAuthentication no"
   when:
     - authorize_key is succeeded
     - not authorize_key is skipped
