@@ -14,7 +14,7 @@ services:
       - redis
     volumes:
       - {{ papermerge__path }}/media:/opt/media
-      - {{ papermerge__path }}/config/app.production.py:/etc/papermerge.conf.py
+      - {{ papermerge__path }}/config/app.production.py:/opt/etc/papermerge.conf.py
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - POSTGRES_USER=dbuser
@@ -62,7 +62,7 @@ services:
       - no-new-privileges:true
     volumes:
       - {{ papermerge__path }}/media:/opt/media
-      - {{ papermerge__path }}/config/worker.production.py:/etc/papermerge.conf.py
+      - {{ papermerge__path }}/config/worker.production.py:/opt/etc/papermerge.conf.py
       - {{ papermerge__import_dir }}:/opt/import
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.production
