@@ -39,6 +39,7 @@
   failed_when:
     - result.rc != 0
     - '"config already exists" not in result.stderr'
+    - '"repository master key and config already initialized" not in result.stderr'
   become: true
   loop: "{{ restic__repos }}"
 
