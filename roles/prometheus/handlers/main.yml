@@ -1,7 +1,7 @@
 ---
 
 - name: Prometheus | Restart Prometheus
-  community.docker.docker_compose:
-    project_src: "{{ prometheus__path }}"
-    state: present
-    restarted: yes
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ prometheus__path }}"
+  become: true

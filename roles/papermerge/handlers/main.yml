@@ -1,7 +1,6 @@
 ---
-
 - name: Papermerge | Restart Papermerge
-  community.docker.docker_compose:
-    project_src: "{{ papermerge__path }}"
-    state: present
-    restarted: yes
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ papermerge__path }}"
+  become: true

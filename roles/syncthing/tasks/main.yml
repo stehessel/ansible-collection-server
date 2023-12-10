@@ -1,5 +1,4 @@
 ---
-
 - name: Syncthing | Make sure Syncthing path exists
   file:
     path: "{{ syncthing__path }}"
@@ -18,10 +17,9 @@
   notify: Syncthing | Restart Syncthing
 
 - name: Syncthing | Pull image and start service
-  community.docker.docker_compose:
-    project_src: "{{ syncthing__path }}"
-    pull: yes
-    state: present
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ syncthing__path }}"
   become: true
 
 - name: Docker | Set up ufw rules

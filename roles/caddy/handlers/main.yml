@@ -1,7 +1,7 @@
 ---
 
 - name: Caddy | Restart Caddy
-  community.docker.docker_compose:
-    project_src: "{{ caddy__path }}"
-    state: present
-    restarted: yes
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ caddy__path }}"
+  become: true

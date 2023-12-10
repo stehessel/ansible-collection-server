@@ -1,5 +1,4 @@
 ---
-
 - name: Grafana | Make sure Grafana datasources path exists
   file:
     path: "{{ grafana__path }}/provisioning/datasources"
@@ -62,8 +61,7 @@
   notify: Grafana | Restart Grafana
 
 - name: Grafana | Pull image and start service
-  community.docker.docker_compose:
-    project_src: "{{ grafana__path }}"
-    pull: yes
-    state: present
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ grafana__path }}"
   become: true

@@ -1,7 +1,6 @@
 ---
-
 - name: Grafana | Restart Grafana
-  community.docker.docker_compose:
-    project_src: "{{ grafana__path }}"
-    state: present
-    restarted: yes
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ grafana__path }}"
+  become: true

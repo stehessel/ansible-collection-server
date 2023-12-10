@@ -30,10 +30,9 @@
   notify: Papermerge | Restart Papermerge
 
 - name: Papermerge | Pull image and start service
-  community.docker.docker_compose:
-    project_src: "{{ papermerge__path }}"
-    pull: yes
-    state: present
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ papermerge__path }}"
   become: true
 
 - name: Papermerge | Set up database backup cron job

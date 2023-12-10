@@ -16,10 +16,11 @@ services:
       # - BUKUSERVER_SECRET_KEY=123456789012345678901234
       # - BUKUSERVER_URL_RENDER_MODE=full
       # - BUKUSERVER_DISABLE_FAVICON=false
+    networks:
+      - caddy-net
     volumes:
       - "{{ buku__path}}/data:/root/.local/share/buku"
 
 networks:
-  default:
-    external:
-      name: caddy-net
+  caddy-net:
+    external: true

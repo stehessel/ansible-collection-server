@@ -21,10 +21,9 @@
   notify: Mealie | Restart Mealie
 
 - name: Mealie | Pull image and start service
-  community.docker.docker_compose:
-    project_src: "{{ mealie__path }}"
-    pull: yes
-    state: present
+  ansible.builtin.command: docker compose up --detach
+  args:
+    chdir: "{{ mealie__path }}"
   become: true
 
 - name: Mealie | Copy backup script
