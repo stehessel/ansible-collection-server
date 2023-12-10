@@ -3,40 +3,24 @@
 version: "3.7"
 
 services:
-  mealie-frontend:
-    image: hkotel/mealie:frontend-{{ mealie__version }}
-    container_name: mealie-frontend
-    depends_on:
-      - mealie-api
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    environment:
-      - API_URL=http://mealie-api:9000
-    volumes:
-      - mealie-data:/app/data/
-    networks:
-      - caddy-net
-      - mealie-net
-
-  mealie-api:
-    image: hkotel/mealie:api-{{ mealie__version }}
-    container_name: mealie-api
+  mealie:
+    image: {{ mealie__image }}
+    container_name: mealie
     security_opt:
       - no-new-privileges:true
     restart: always
     deploy:
       resources:
         limits:
-          memory: 1000M
+          memory: 2000M
     environment:
+      - ALLOW_SIGNUP={{ mealie__allow_signup }}
+      - BASE_URL={{ mealie__base_url }}
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Berlin
-      - ALLOW_SIGNUP={{ mealie__allow_signup }}
       - MAX_WORKERS={{ mealie__max_workers }}
       - WEB_CONCURRENCY=1
-      - BASE_URL={{ mealie__base_url }}
 
       - SMTP_HOST={{ mealie__smtp_host }}
       - SMTP_PORT={{ mealie__smtp_port }}
@@ -47,7 +31,6 @@ services:
       - mealie-data:/app/data/
     networks:
       - caddy-net
-      - mealie-net
 
 volumes:
   mealie-data:
@@ -56,5 +39,3 @@ volumes:
 networks:
   caddy-net:
     external: true
-  mealie-net:
-    internal: true
